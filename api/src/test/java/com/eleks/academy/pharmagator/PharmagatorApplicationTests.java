@@ -12,6 +12,8 @@ class PharmagatorApplicationTests {
 	@Test
 	void contextLoads() {
 
+
+	//added some comments
 	}
-  //added some comments a lot of comments
+ 
 }
