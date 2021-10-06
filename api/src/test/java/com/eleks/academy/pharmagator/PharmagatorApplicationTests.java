@@ -11,7 +11,7 @@ class PharmagatorApplicationTests {
 
 	@Test
 	void contextLoads() {
-		assertEquals(1,9);
+
 	}
   //added some comments a lot of comments
 }
