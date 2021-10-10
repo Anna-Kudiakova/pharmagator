@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql:pharmagator
+    username: postgres
+    password: IknowEDB#1
+  jpa:
+    hibernate:
+      ddl-auto: validate
