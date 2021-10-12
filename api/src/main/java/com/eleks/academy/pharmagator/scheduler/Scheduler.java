@@ -36,8 +36,8 @@ public class Scheduler {
       Medicine medicine = modelMapper.map(dto, Medicine.class);
       Price price = modelMapper.map(dto, Price.class);
       price.setUpdatedAt(Instant.now());
-      price.setPharmacyId(1); //set some pharmacy id that exists in database
-      price.setMedicineId(1); //set some medicine id that exists in database
+      //price.setPharmacyId(1); //set some pharmacy id that exists in database
+      //price.setMedicineId(1); //set some medicine id that exists in database
       medicineRepository.save(medicine);
       priceRepository.save(price);
     }
