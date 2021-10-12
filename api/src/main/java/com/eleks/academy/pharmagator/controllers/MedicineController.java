@@ -20,12 +20,12 @@ public class MedicineController {
 
     private final MedicineRepository medicineRepository;
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<List<Medicine>> getAll(){
         return ResponseEntity.ok(medicineRepository.findAll());
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Medicine> getById(@PathVariable("id") long id) {
         Optional<Medicine> medicineData = medicineRepository.findById(id);
         if (medicineData.isPresent()) {
@@ -36,7 +36,7 @@ public class MedicineController {
     }
 
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<Medicine> create(@RequestBody Medicine medicine) {
         try {
             Medicine newMedicine = medicineRepository.save(new Medicine(medicine.getId(), medicine.getTitle()));
@@ -47,7 +47,7 @@ public class MedicineController {
     }
 
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Medicine> update(@PathVariable("id") long id, @RequestBody Medicine medicine) {
         Optional<Medicine> medicineData = medicineRepository.findById(id);
         if (medicineData.isPresent()) {
@@ -60,7 +60,7 @@ public class MedicineController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") long id) {
         try {
             medicineRepository.deleteById(id);

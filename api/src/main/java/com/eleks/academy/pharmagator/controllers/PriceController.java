@@ -21,13 +21,13 @@ public class PriceController {
 
     private final PriceRepository priceRepository;
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<List<Price>> getAll(){
         return ResponseEntity.ok(priceRepository.findAll());
     }
 
-    @GetMapping("/get/{pharmacyId}/{medicineId}")
-    public ResponseEntity<Price> getById(@PathVariable("pharmacyId") Long pharmacyId, @PathVariable("medicineId") Long medicineId) {
+    @GetMapping("/{pharmacy-id}/{medicine-id}")
+    public ResponseEntity<Price> getById(@PathVariable("pharmacy-id") Long pharmacyId, @PathVariable("medicine-id") Long medicineId) {
         PriceId id = new PriceId(pharmacyId,medicineId);
         Optional<Price> priceData = priceRepository.findById(id);
         if (priceData.isPresent()) {
@@ -38,7 +38,7 @@ public class PriceController {
     }
 
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<Price> create(@RequestBody Price price) {
         try {
             Price newPrice = priceRepository.save(new Price(price.getPharmacyId(), price.getMedicineId(), price.getPrice(), price.getExternalId(), price.getUpdatedAt()));
@@ -49,8 +49,8 @@ public class PriceController {
     }
 
 
-    @PutMapping("/update/{pharmacyId}/{medicineId}")
-    public ResponseEntity<Price> update(@PathVariable("pharmacyId") Long pharmacyId, @PathVariable("medicineId") Long medicineId, @RequestBody Price price) {
+    @PutMapping("/{pharmacy-id}/{medicine-id}")
+    public ResponseEntity<Price> update(@PathVariable("pharmacy-id") Long pharmacyId, @PathVariable("medicine-id") Long medicineId, @RequestBody Price price) {
         PriceId id = new PriceId(pharmacyId,medicineId);
         Optional<Price> priceData = priceRepository.findById(id);
         if (priceData.isPresent()) {
@@ -66,8 +66,8 @@ public class PriceController {
         }
     }
 
-    @DeleteMapping("/delete/{pharmacyId}/{medicineId}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("pharmacyId") Long pharmacyId, @PathVariable("medicineId") Long medicineId) {
+    @DeleteMapping("/{pharmacy-id}/{medicine-id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("pharmacy-id") Long pharmacyId, @PathVariable("medicine-id") Long medicineId) {
         try {
             PriceId id = new PriceId(pharmacyId,medicineId);
             priceRepository.deleteById(id);
