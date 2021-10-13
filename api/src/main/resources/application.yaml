@@ -6,3 +6,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
+
+pharmagator:
+  data-providers:
+    apteka-ds:
+      url: https://api-int.apteka-ds.com.ua/api/v1
+      category-fetch-url: /category-menu
+      category-path: /cat-prods-by-page
