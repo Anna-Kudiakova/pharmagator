@@ -13,6 +13,8 @@ public class DataProvidersConfig {
 	@Value("${pharmagator.data-providers.apteka-ds.url}")
 	private String pharmacyDSBaseUrl;
 
+
+
 	@Bean(name = "pharmacyDSWebClient")
 	public WebClient pharmacyDSWebClient() {
 		return WebClient.builder()
@@ -21,6 +23,15 @@ public class DataProvidersConfig {
 				.baseUrl(pharmacyDSBaseUrl)
 				.build();
 	}
+
+	/*@Bean(name = "pharmacy24WebClient")
+	public WebClient pharmacy24WebClient() {
+		return WebClient.builder()
+				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+				.defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+				.baseUrl(pharmacyDSBaseUrl)
+				.build();
+	}*/
 
 
 }

@@ -1,4 +1,4 @@
-package com.eleks.academy.pharmagator.configuration;
+package com.eleks.academy.pharmagator.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
