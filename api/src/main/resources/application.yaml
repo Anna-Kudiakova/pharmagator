@@ -15,6 +15,9 @@ pharmagator:
       category-fetch-url: /category-menu
       category-path: /cat-prods-by-page
     apteka-rozetka:
-      url: https://xl-catalog-api.rozetka.com.ua/v4
+      url: https://xl-catalog-api.rozetka.com.ua/v4/goods
+      product-ids-fetch-url: /get
+      products-fetch-url: /getDetails
+
 
 
