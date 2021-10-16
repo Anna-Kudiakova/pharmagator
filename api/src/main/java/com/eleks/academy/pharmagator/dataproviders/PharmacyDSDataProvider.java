@@ -35,10 +35,10 @@ public class PharmacyDSDataProvider implements DataProvider {
 	public Stream<MedicineDto> loadData() {
 		return this.fetchCategories().stream()
 				.filter(categoryDto -> categoryDto.getName().equals("Медикаменти"))
-				.map(CategoryDto::getChildren)
-				.flatMap(Collection::stream)
-				.map(CategoryDto::getSlug)
-				.flatMap(this::fetchMedicinesByCategory);
+				.map(categoryDto1 -> categoryDto1.getChildren())
+				.flatMap(categoryDtos -> categoryDtos.stream())
+				.map(categoryDto2 -> categoryDto2.getSlug())
+				.flatMap(category -> fetchMedicinesByCategory(category));
 	}
 
 	private List<CategoryDto> fetchCategories() {
