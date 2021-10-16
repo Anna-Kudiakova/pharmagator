@@ -21,8 +21,6 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
         return null;
     }
 
-    /*private List<Integer> fetchCategoryId() {
-        this.rozetkaClient.get()
-    }*/
+
 
 }
