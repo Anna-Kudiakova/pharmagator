@@ -17,10 +17,6 @@ public class DataProvidersConfig {
 	@Value("${pharmagator.data-providers.apteka-rozetka.url}")
 	private String pharmacyRozetkaBaseUrl;
 
-
-
-
-
 	@Bean
 	public WebClient pharmacyDSWebClient() {
 		return WebClient.builder()
