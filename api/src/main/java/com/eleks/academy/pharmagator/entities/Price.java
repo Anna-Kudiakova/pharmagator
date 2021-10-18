@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -21,9 +18,11 @@ import java.time.Instant;
 @IdClass(PriceId.class)
 public class Price {
     @Id
-    private long pharmacyId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long pharmacyId;
     @Id
-    private long medicineId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long medicineId;
     private BigDecimal price;
     private String externalId;
     private Instant updatedAt;

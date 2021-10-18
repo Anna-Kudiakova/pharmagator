@@ -18,6 +18,9 @@ pharmagator:
       url: https://xl-catalog-api.rozetka.com.ua/v4/goods
       product-ids-fetch-url: /get
       products-fetch-url: /getDetails
+      sell-status: available
+      category-id: !!str 4628621
+
 
 
 
