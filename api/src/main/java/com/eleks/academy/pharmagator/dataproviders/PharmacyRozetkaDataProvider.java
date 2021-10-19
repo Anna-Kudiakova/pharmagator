@@ -19,12 +19,15 @@ import java.util.stream.Stream;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 @Qualifier("pharmacyRozetkaDataProvider")
 public class PharmacyRozetkaDataProvider implements DataProvider {
 
-    @Qualifier("pharmacyRozetkaWebClient")
+
     private final WebClient rozetkaClient;
+
+    public PharmacyRozetkaDataProvider(@Qualifier("pharmacyRozetkaWebClient") WebClient rozetkaClient) {
+        this.rozetkaClient = rozetkaClient;
+    }
 
     @Value("${pharmagator.data-providers.apteka-rozetka.product-ids-fetch-url}")
     private String productIdsFetchUrl;
@@ -67,7 +70,7 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
 
     private Stream<MedicineDto> fetchProducts(List<Long> productIdsList) {
         StringBuilder productIds= new StringBuilder();
-        if(productIdsList!=null) {
+        //if(productIdsList!=null) {
             for (int i = 0; i < productIdsList.size(); i++) {
                 productIds.append(productIdsList.get(i));
                 if (i != (productIdsList.size() - 1))
@@ -84,7 +87,7 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
                 .block();
         if(rozetkaMedicineResponse!=null)
             return rozetkaMedicineResponse.getProducts().stream().map(rozetkaMedicineDto -> mapToMedicineDto(rozetkaMedicineDto));
-        }
+        //}
         return Stream.empty();
     }
 

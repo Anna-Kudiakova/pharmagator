@@ -34,48 +34,33 @@ public class Scheduler {
 
     {
         pharmacy = new Pharmacy();
-        pharmacy.setId(3L);
         pharmacy.setName("Rozetka");
     }
 
-    private final List<DataProvider> dataProviderList;
+    private final List<DataProvider> dataProvidersList;
 
     @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.MINUTES)
     public void schedule() {
         log.info("Scheduler started at {}", Instant.now());
-        dataProviderList.get(2).loadData().forEach(this::storeToDatabase);
+        dataProvidersList.get(0).loadData().forEach(this::storeToDatabase);
+        /*dataProvidersList.stream()
+                .flatMap(DataProvider::loadData)
+                .forEach(this::storeToDatabase);*/
 
     }
 
     private void storeToDatabase(MedicineDto dto) {
-        Optional<Medicine> medicineIs = medicineRepository.findByTitle(dto.getTitle());
-        if (medicineIs.isPresent()) {
-            Medicine medicine = medicineIs.get();
-            List<Price> optional = priceRepository.findByMedicineIdAndPharmacyId(medicine.getId(), pharmacy.getId());
-            Optional<Price> optionalPrice = optional.stream().findFirst();
-            if (optionalPrice.isPresent()) {
-                Price price = optionalPrice.get();
-                price.setPrice(dto.getPrice());
-                price.setUpdatedAt(Instant.now());
-                priceRepository.save(price);
-            } else {
-                Price price = modelMapper.map(dto, Price.class);
-                price.setMedicineId(medicine.getId());
-                price.setPharmacyId(pharmacy.getId());
-                price.setUpdatedAt(Instant.now());
-                priceRepository.save(price);
-            }
-
-        } else {
-            Medicine medicine = modelMapper.map(dto, Medicine.class);
-            medicineRepository.save(medicine);
-            Price price = modelMapper.map(dto, Price.class);
-            price.setMedicineId(medicine.getId());
-            price.setPharmacyId(pharmacy.getId());
-            price.setUpdatedAt(Instant.now());
-            priceRepository.save(price);
-        }
-
+        //log.info(dto.getTitle() + " - " + dto.getPrice());
+        Medicine medicine = modelMapper.map(dto, Medicine.class);
+        Price price = modelMapper.map(dto, Price.class);
+        medicine.setId(null);
+        price.setMedicineId(medicine.getId());
+        price.setPharmacyId(pharmacy.getId());
+        price.setUpdatedAt(Instant.now());
+        price.setExternalId(dto.getExternalId());
+        priceRepository.save(price);
+        medicineRepository.save(medicine);
+        pharmacyRepository.save(pharmacy);
     }
 
 
