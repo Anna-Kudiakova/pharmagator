@@ -86,8 +86,6 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
             return rozetkaMedicineResponse.getProducts().stream().map(rozetkaMedicineDto -> mapToMedicineDto(rozetkaMedicineDto));
         }
         return Stream.empty();
-
-
     }
 
     private MedicineDto mapToMedicineDto(RozetkaMedicineDto rozetkaMedicineDto) {

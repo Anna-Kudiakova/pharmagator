@@ -27,7 +27,7 @@ public class DataProvidersConfig {
 	}
 
 	@Bean
-	@Primary
+    @Primary
 	public WebClient pharmacyRozetkaWebClient() {
 		return WebClient.builder()
 				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
