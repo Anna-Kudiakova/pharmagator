@@ -1,7 +1,6 @@
 package com.eleks.academy.pharmagator.controllers;
 
 
-import com.eleks.academy.pharmagator.entities.Medicine;
 import com.eleks.academy.pharmagator.entities.Price;
 import com.eleks.academy.pharmagator.entities.PriceId;
 import com.eleks.academy.pharmagator.repositories.PriceRepository;
@@ -23,12 +22,12 @@ public class PriceController {
 
     @GetMapping
     public ResponseEntity<List<Price>> getAll(@RequestParam(required = false) Long medicineId,
-                                              @RequestParam(required = false) Long pharmacyId){
+                                              @RequestParam(required = false) Long pharmacyId) {
         if (medicineId != null && pharmacyId != null)
             return ResponseEntity.ok(priceRepository.findByMedicineIdAndPharmacyId(medicineId, pharmacyId));
         else if (medicineId != null)
             return ResponseEntity.ok(priceRepository.findByMedicineId(medicineId));
-        else if(pharmacyId != null)
+        else if (pharmacyId != null)
             return ResponseEntity.ok(priceRepository.findByPharmacyId(medicineId));
         else
             return ResponseEntity.ok(priceRepository.findAll());
@@ -36,7 +35,7 @@ public class PriceController {
 
     @GetMapping("pharmacies/{pharmacy-id}/medicines/{medicine-id}")
     public ResponseEntity<Price> getById(@PathVariable("pharmacy-id") Long pharmacyId, @PathVariable("medicine-id") Long medicineId) {
-        PriceId id = new PriceId(pharmacyId,medicineId);
+        PriceId id = new PriceId(pharmacyId, medicineId);
         Optional<Price> priceData = priceRepository.findById(id);
         if (priceData.isPresent()) {
             return new ResponseEntity(priceData.get(), HttpStatus.OK);
@@ -59,7 +58,7 @@ public class PriceController {
 
     @PutMapping("pharmacies/{pharmacy-id}/medicines/{medicine-id}")
     public ResponseEntity<Price> update(@PathVariable("pharmacy-id") Long pharmacyId, @PathVariable("medicine-id") Long medicineId, @RequestBody Price price) {
-        PriceId id = new PriceId(pharmacyId,medicineId);
+        PriceId id = new PriceId(pharmacyId, medicineId);
         Optional<Price> priceData = priceRepository.findById(id);
         if (priceData.isPresent()) {
             Price updatedPrice = priceData.get();
@@ -76,7 +75,7 @@ public class PriceController {
 
     @DeleteMapping("pharmacies/{pharmacy-id}/medicines/{medicine-id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("pharmacy-id") Long pharmacyId, @PathVariable("medicine-id") Long medicineId) {
-        PriceId id = new PriceId(pharmacyId,medicineId);
+        PriceId id = new PriceId(pharmacyId, medicineId);
         priceRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

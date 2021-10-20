@@ -2,7 +2,6 @@ package com.eleks.academy.pharmagator.controllers;
 
 
 import com.eleks.academy.pharmagator.entities.Medicine;
-import com.eleks.academy.pharmagator.entities.Pharmacy;
 import com.eleks.academy.pharmagator.repositories.MedicineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,7 @@ public class MedicineController {
     private final MedicineRepository medicineRepository;
 
     @GetMapping
-    public ResponseEntity<List<Medicine>> getAll(){
+    public ResponseEntity<List<Medicine>> getAll() {
         return ResponseEntity.ok(medicineRepository.findAll());
     }
 

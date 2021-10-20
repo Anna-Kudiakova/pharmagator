@@ -1,12 +1,10 @@
 package com.eleks.academy.pharmagator.dataproviders;
 
 
-
 import com.eleks.academy.pharmagator.dataproviders.dto.MedicineDto;
-import com.eleks.academy.pharmagator.dataproviders.dto.rozetka.RozetkaProductIdsResponse;
 import com.eleks.academy.pharmagator.dataproviders.dto.rozetka.RozetkaMedicineDto;
 import com.eleks.academy.pharmagator.dataproviders.dto.rozetka.RozetkaMedicineResponse;
-import lombok.RequiredArgsConstructor;
+import com.eleks.academy.pharmagator.dataproviders.dto.rozetka.RozetkaProductIdsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,14 +41,14 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
 
     @Override
     public Stream<MedicineDto> loadData() {
-        RozetkaProductIdsResponse rozetkaProductIdsResponse ;
+        RozetkaProductIdsResponse rozetkaProductIdsResponse;
         Stream<MedicineDto> medicineDtoStream = Stream.of();
         int page = 1;
         do {
             rozetkaProductIdsResponse = this.fetchProductIds(page);
             medicineDtoStream = Stream.concat(medicineDtoStream, this.fetchProducts(rozetkaProductIdsResponse.getProductIds()));
             page++;
-        }while (rozetkaProductIdsResponse.getShowNext() != 0);
+        } while (rozetkaProductIdsResponse.getShowNext() != 0);
         return medicineDtoStream;
     }
 
@@ -69,14 +67,13 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
     }
 
     private Stream<MedicineDto> fetchProducts(List<Long> productIdsList) {
-        StringBuilder productIds= new StringBuilder();
+        StringBuilder productIds = new StringBuilder();
         //if(productIdsList!=null) {
-            for (int i = 0; i < productIdsList.size(); i++) {
-                productIds.append(productIdsList.get(i));
-                if (i != (productIdsList.size() - 1))
-                    productIds.append(",");
-            }
-
+        for (int i = 0; i < productIdsList.size(); i++) {
+            productIds.append(productIdsList.get(i));
+            if (i != (productIdsList.size() - 1))
+                productIds.append(",");
+        }
         RozetkaMedicineResponse rozetkaMedicineResponse = this.rozetkaClient.get().uri(u -> u
                         .path(productsPath)
                         .queryParam("product_ids", productIds)
@@ -85,7 +82,7 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
                 .bodyToMono(new ParameterizedTypeReference<RozetkaMedicineResponse>() {
                 })
                 .block();
-        if(rozetkaMedicineResponse!=null)
+        if (rozetkaMedicineResponse != null)
             return rozetkaMedicineResponse.getProducts().stream().map(rozetkaMedicineDto -> mapToMedicineDto(rozetkaMedicineDto));
         //}
         return Stream.empty();

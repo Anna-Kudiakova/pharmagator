@@ -2,9 +2,7 @@ package com.eleks.academy.pharmagator.scheduler;
 
 import com.eleks.academy.pharmagator.dataproviders.DataProvider;
 import com.eleks.academy.pharmagator.dataproviders.dto.MedicineDto;
-import com.eleks.academy.pharmagator.entities.Medicine;
 import com.eleks.academy.pharmagator.entities.Pharmacy;
-import com.eleks.academy.pharmagator.entities.Price;
 import com.eleks.academy.pharmagator.repositories.MedicineRepository;
 import com.eleks.academy.pharmagator.repositories.PharmacyRepository;
 import com.eleks.academy.pharmagator.repositories.PriceRepository;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -42,7 +39,7 @@ public class Scheduler {
     @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.MINUTES)
     public void schedule() {
         log.info("Scheduler started at {}", Instant.now());
-        dataProvidersList.get(0).loadData().forEach(this::storeToDatabase);
+        dataProvidersList.get(2).loadData().forEach(this::storeToDatabase);
         /*dataProvidersList.stream()
                 .flatMap(DataProvider::loadData)
                 .forEach(this::storeToDatabase);*/
@@ -50,8 +47,8 @@ public class Scheduler {
     }
 
     private void storeToDatabase(MedicineDto dto) {
-        //log.info(dto.getTitle() + " - " + dto.getPrice());
-        Medicine medicine = modelMapper.map(dto, Medicine.class);
+        log.info(dto.getTitle() + " - " + dto.getPrice());
+        /*Medicine medicine = modelMapper.map(dto, Medicine.class);
         Price price = modelMapper.map(dto, Price.class);
         medicine.setId(null);
         price.setMedicineId(medicine.getId());
@@ -60,10 +57,8 @@ public class Scheduler {
         price.setExternalId(dto.getExternalId());
         priceRepository.save(price);
         medicineRepository.save(medicine);
-        pharmacyRepository.save(pharmacy);
+        pharmacyRepository.save(pharmacy);*/
     }
-
-
 
 
 }

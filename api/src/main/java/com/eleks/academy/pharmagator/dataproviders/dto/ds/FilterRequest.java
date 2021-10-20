@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FilterRequest {
 
-	private Long page;
-	private Long per;
+    private Long page;
+    private Long per;
 
 }
