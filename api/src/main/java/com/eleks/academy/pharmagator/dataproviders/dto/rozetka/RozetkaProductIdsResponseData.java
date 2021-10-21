@@ -7,11 +7,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RozetkaProductIdsResponse {
+public class RozetkaProductIdsResponseData {
 
-    private RozetkaProductIdsResponseData data;
+    private List<Long> ids;
+    @JsonProperty("show_next")
+    private int showNext;
+
+
 }

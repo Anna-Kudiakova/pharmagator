@@ -2,7 +2,9 @@ package com.eleks.academy.pharmagator.scheduler;
 
 import com.eleks.academy.pharmagator.dataproviders.DataProvider;
 import com.eleks.academy.pharmagator.dataproviders.dto.MedicineDto;
+import com.eleks.academy.pharmagator.entities.Medicine;
 import com.eleks.academy.pharmagator.entities.Pharmacy;
+import com.eleks.academy.pharmagator.entities.Price;
 import com.eleks.academy.pharmagator.repositories.MedicineRepository;
 import com.eleks.academy.pharmagator.repositories.PharmacyRepository;
 import com.eleks.academy.pharmagator.repositories.PriceRepository;
@@ -47,17 +49,17 @@ public class Scheduler {
     }
 
     private void storeToDatabase(MedicineDto dto) {
-        log.info(dto.getTitle() + " - " + dto.getPrice());
-        /*Medicine medicine = modelMapper.map(dto, Medicine.class);
+       //log.info(dto.getTitle() + " - " + dto.getPrice());
+        Medicine medicine = modelMapper.map(dto, Medicine.class);
         Price price = modelMapper.map(dto, Price.class);
+        pharmacyRepository.save(pharmacy);
         medicine.setId(null);
+        medicineRepository.save(medicine);
         price.setMedicineId(medicine.getId());
         price.setPharmacyId(pharmacy.getId());
         price.setUpdatedAt(Instant.now());
         price.setExternalId(dto.getExternalId());
         priceRepository.save(price);
-        medicineRepository.save(medicine);
-        pharmacyRepository.save(pharmacy);*/
     }
 
 

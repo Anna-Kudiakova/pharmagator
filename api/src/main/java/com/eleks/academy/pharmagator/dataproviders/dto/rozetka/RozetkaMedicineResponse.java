@@ -11,5 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 public class RozetkaMedicineResponse {
 
-    private List<RozetkaMedicineDto> products;
+    private List<RozetkaMedicineDto> data;
 }

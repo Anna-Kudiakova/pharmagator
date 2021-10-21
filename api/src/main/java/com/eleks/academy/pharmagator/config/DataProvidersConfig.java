@@ -20,7 +20,6 @@ public class DataProvidersConfig {
 
     @Bean(name = "pharmacyDSWebClient")
     public WebClient pharmacyDSWebClient() {
-        ObjectMapper mapper = new ObjectMapper().registerModule(new JsonOrgModule());
         return WebClient.builder()
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)

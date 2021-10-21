@@ -7,11 +7,9 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Table(name = "prices")
 @IdClass(PriceId.class)
 public class Price {

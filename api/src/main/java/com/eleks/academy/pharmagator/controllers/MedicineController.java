@@ -25,7 +25,7 @@ public class MedicineController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Medicine> getById(@PathVariable("id") long id) {
+    public ResponseEntity<Medicine> getById(@PathVariable("id") Long id) {
         Optional<Medicine> medicineData = medicineRepository.findById(id);
         if (medicineData.isPresent()) {
             return new ResponseEntity(medicineData.get(), HttpStatus.OK);
@@ -47,7 +47,7 @@ public class MedicineController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Medicine> update(@PathVariable("id") long id, @RequestBody Medicine medicine) {
+    public ResponseEntity<Medicine> update( @PathVariable("id") Long id, @RequestBody Medicine medicine) {
         Optional<Medicine> medicineData = medicineRepository.findById(id);
         if (medicineData.isPresent()) {
             Medicine updatedMedicine = medicineData.get();

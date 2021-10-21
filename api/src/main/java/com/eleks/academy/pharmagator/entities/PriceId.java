@@ -6,11 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 public class PriceId implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)

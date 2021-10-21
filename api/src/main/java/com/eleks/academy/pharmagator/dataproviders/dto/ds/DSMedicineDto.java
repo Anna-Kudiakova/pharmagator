@@ -14,7 +14,6 @@ public class DSMedicineDto {
 
     private String id;
     private String name;
-    @JsonProperty("ціна")
     private BigDecimal price;
     private String manufacturer;
 
