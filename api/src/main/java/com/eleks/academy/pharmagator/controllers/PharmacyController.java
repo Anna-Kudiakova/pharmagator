@@ -16,7 +16,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/pharmacies")
 @RequiredArgsConstructor
 public class PharmacyController {
@@ -40,7 +40,7 @@ public class PharmacyController {
 
 
     @PostMapping
-    public ResponseEntity<Pharmacy> create(@RequestBody Pharmacy pharmacy) {
+    public ResponseEntity<Pharmacy> create(@Valid @RequestBody Pharmacy pharmacy) {
         try {
             Pharmacy newPharmacy = pharmacyRepository.save(new Pharmacy(pharmacy.getId(), pharmacy.getName(), pharmacy.getMedicineLinkTemplate()));
             return new ResponseEntity<>(newPharmacy, HttpStatus.CREATED);
@@ -51,10 +51,11 @@ public class PharmacyController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pharmacy> update(@PathVariable("id") long id, @Valid @RequestBody PharmacyRequest pharmacy) {
+    public ResponseEntity<Pharmacy> update(@PathVariable("id") Long id, @Valid @RequestBody Pharmacy pharmacy) {
         Optional<Pharmacy> pharmacyData = pharmacyRepository.findById(id);
         if (pharmacyData.isPresent()) {
             Pharmacy updatedPharmacy = pharmacyData.get();
+            updatedPharmacy.setId(pharmacy.getId());
             updatedPharmacy.setName(pharmacy.getName());
             updatedPharmacy.setMedicineLinkTemplate(pharmacy.getMedicineLinkTemplate());
             return new ResponseEntity<>(pharmacyRepository.save(updatedPharmacy), HttpStatus.OK);

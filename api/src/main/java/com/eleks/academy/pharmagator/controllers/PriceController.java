@@ -10,10 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/prices")
 @RequiredArgsConstructor
 public class PriceController {
@@ -46,7 +47,7 @@ public class PriceController {
 
 
     @PostMapping
-    public ResponseEntity<Price> create(@RequestBody Price price) {
+    public ResponseEntity<Price> create(@Valid  @RequestBody Price price) {
         try {
             Price newPrice = priceRepository.save(new Price(price.getPharmacyId(), price.getMedicineId(), price.getPrice(), price.getExternalId(), price.getUpdatedAt()));
             return new ResponseEntity<>(newPrice, HttpStatus.CREATED);
@@ -57,7 +58,7 @@ public class PriceController {
 
 
     @PutMapping("pharmacies/{pharmacy-id}/medicines/{medicine-id}")
-    public ResponseEntity<Price> update(@PathVariable("pharmacy-id") Long pharmacyId, @PathVariable("medicine-id") Long medicineId, @RequestBody Price price) {
+    public ResponseEntity<Price> update(@PathVariable("pharmacy-id") Long pharmacyId, @PathVariable("medicine-id") Long medicineId, @Valid @RequestBody Price price) {
         PriceId id = new PriceId(pharmacyId, medicineId);
         Optional<Price> priceData = priceRepository.findById(id);
         if (priceData.isPresent()) {

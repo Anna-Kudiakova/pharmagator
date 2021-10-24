@@ -9,10 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/medicines")
 @RequiredArgsConstructor
 public class MedicineController {
@@ -36,7 +37,7 @@ public class MedicineController {
 
 
     @PostMapping
-    public ResponseEntity<Medicine> create(@RequestBody Medicine medicine) {
+    public ResponseEntity<Medicine> create(@Valid @RequestBody Medicine medicine) {
         try {
             Medicine newMedicine = medicineRepository.save(new Medicine(medicine.getId(), medicine.getTitle()));
             return new ResponseEntity<>(newMedicine, HttpStatus.CREATED);
@@ -47,7 +48,7 @@ public class MedicineController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Medicine> update( @PathVariable("id") Long id, @RequestBody Medicine medicine) {
+    public ResponseEntity<Medicine> update( @PathVariable("id") Long id, @Valid  @RequestBody Medicine medicine) {
         Optional<Medicine> medicineData = medicineRepository.findById(id);
         if (medicineData.isPresent()) {
             Medicine updatedMedicine = medicineData.get();
