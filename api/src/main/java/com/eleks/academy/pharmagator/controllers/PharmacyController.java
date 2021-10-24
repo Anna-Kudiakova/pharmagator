@@ -2,12 +2,17 @@ package com.eleks.academy.pharmagator.controllers;
 
 import com.eleks.academy.pharmagator.entities.Pharmacy;
 import com.eleks.academy.pharmagator.repositories.PharmacyRepository;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +24,7 @@ public class PharmacyController {
     private final PharmacyRepository pharmacyRepository;
 
     @GetMapping
-    public ResponseEntity<List<Pharmacy>> getAll(){
+    public ResponseEntity<List<Pharmacy>> getAll() {
         return ResponseEntity.ok(pharmacyRepository.findAll());
     }
 
@@ -46,11 +51,10 @@ public class PharmacyController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pharmacy> update(@PathVariable("id") long id, @RequestBody Pharmacy pharmacy) {
+    public ResponseEntity<Pharmacy> update(@PathVariable("id") long id, @Valid @RequestBody PharmacyRequest pharmacy) {
         Optional<Pharmacy> pharmacyData = pharmacyRepository.findById(id);
         if (pharmacyData.isPresent()) {
             Pharmacy updatedPharmacy = pharmacyData.get();
-            updatedPharmacy.setId(pharmacy.getId());
             updatedPharmacy.setName(pharmacy.getName());
             updatedPharmacy.setMedicineLinkTemplate(pharmacy.getMedicineLinkTemplate());
             return new ResponseEntity<>(pharmacyRepository.save(updatedPharmacy), HttpStatus.OK);
@@ -64,4 +68,19 @@ public class PharmacyController {
         pharmacyRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
+}
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+class PharmacyRequest {
+
+    @NotEmpty
+    private String name;
+
+    @NotEmpty
+    private String medicineLinkTemplate;
+
 }

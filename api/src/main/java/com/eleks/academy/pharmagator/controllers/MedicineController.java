@@ -2,7 +2,6 @@ package com.eleks.academy.pharmagator.controllers;
 
 
 import com.eleks.academy.pharmagator.entities.Medicine;
-import com.eleks.academy.pharmagator.entities.Pharmacy;
 import com.eleks.academy.pharmagator.repositories.MedicineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,12 +20,12 @@ public class MedicineController {
     private final MedicineRepository medicineRepository;
 
     @GetMapping
-    public ResponseEntity<List<Medicine>> getAll(){
+    public ResponseEntity<List<Medicine>> getAll() {
         return ResponseEntity.ok(medicineRepository.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Medicine> getById(@PathVariable("id") long id) {
+    public ResponseEntity<Medicine> getById(@PathVariable("id") Long id) {
         Optional<Medicine> medicineData = medicineRepository.findById(id);
         if (medicineData.isPresent()) {
             return new ResponseEntity(medicineData.get(), HttpStatus.OK);
@@ -48,7 +47,7 @@ public class MedicineController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Medicine> update(@PathVariable("id") long id, @RequestBody Medicine medicine) {
+    public ResponseEntity<Medicine> update( @PathVariable("id") Long id, @RequestBody Medicine medicine) {
         Optional<Medicine> medicineData = medicineRepository.findById(id);
         if (medicineData.isPresent()) {
             Medicine updatedMedicine = medicineData.get();
