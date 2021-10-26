@@ -65,9 +65,8 @@ public class PharmacyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") long id) {
+    public void delete(@PathVariable("id") long id) {
         pharmacyRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

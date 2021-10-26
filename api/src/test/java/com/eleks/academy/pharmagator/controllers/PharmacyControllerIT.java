@@ -41,6 +41,13 @@ public class PharmacyControllerIT {
     }
 
     @Test
+    public void findAllPharmacies_empty_ok() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/pharmacies"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json("[]"));
+    }
+
+    @Test
     public void findAllPharmacies_findIds_ok() throws Exception {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());

@@ -75,10 +75,9 @@ public class PriceController {
     }
 
     @DeleteMapping("pharmacies/{pharmacy-id}/medicines/{medicine-id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("pharmacy-id") Long pharmacyId, @PathVariable("medicine-id") Long medicineId) {
+    public void delete(@PathVariable("pharmacy-id") Long pharmacyId, @PathVariable("medicine-id") Long medicineId) {
         PriceId id = new PriceId(pharmacyId, medicineId);
         priceRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
 
