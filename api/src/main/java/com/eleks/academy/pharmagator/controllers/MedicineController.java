@@ -1,12 +1,12 @@
 package com.eleks.academy.pharmagator.controllers;
 
 
+import com.eleks.academy.pharmagator.controllers.dto.MedicineDto;
 import com.eleks.academy.pharmagator.entities.Medicine;
-import com.eleks.academy.pharmagator.repositories.MedicineRepository;
+import com.eleks.academy.pharmagator.services.MedicineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,16 +18,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MedicineController {
 
-    private final MedicineRepository medicineRepository;
+    private final MedicineService medicineService;
 
     @GetMapping
     public ResponseEntity<List<Medicine>> getAll() {
-        return ResponseEntity.ok(medicineRepository.findAll());
+
+        return ResponseEntity.ok(this.medicineService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Medicine> getById(@PathVariable("id") Long id) {
-        Optional<Medicine> medicineData = medicineRepository.findById(id);
+
+        Optional<Medicine> medicineData = this.medicineService.findById(id);
         if (medicineData.isPresent()) {
             return new ResponseEntity(medicineData.get(), HttpStatus.OK);
         } else {
@@ -37,24 +39,17 @@ public class MedicineController {
 
 
     @PostMapping
-    public ResponseEntity<Medicine> create(@Valid @RequestBody Medicine medicine) {
-        try {
-            Medicine newMedicine = medicineRepository.save(new Medicine(medicine.getId(), medicine.getTitle()));
-            return new ResponseEntity<>(newMedicine, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Medicine> create(@Valid @RequestBody MedicineDto medicineDto) {
+
+        return new ResponseEntity<>(this.medicineService.save(medicineDto), HttpStatus.CREATED);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Medicine> update( @PathVariable("id") Long id, @Valid  @RequestBody Medicine medicine) {
-        Optional<Medicine> medicineData = medicineRepository.findById(id);
+    public ResponseEntity<Medicine> update( @PathVariable("id") Long id, @Valid  @RequestBody MedicineDto medicineDto) {
+        Optional<Medicine> medicineData = this.medicineService.update(id, medicineDto);
         if (medicineData.isPresent()) {
-            Medicine updatedMedicine = medicineData.get();
-            updatedMedicine.setId(medicine.getId());
-            updatedMedicine.setTitle(medicine.getTitle());
-            return new ResponseEntity<>(medicineRepository.save(updatedMedicine), HttpStatus.OK);
+            return new ResponseEntity<>(medicineData.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -62,6 +57,6 @@ public class MedicineController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id) {
-        medicineRepository.deleteById(id);
+        this.medicineService.deleteById(id);
     }
 }

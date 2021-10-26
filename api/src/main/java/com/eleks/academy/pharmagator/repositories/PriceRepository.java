@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PriceRepository extends JpaRepository<Price, PriceId> {
@@ -14,6 +15,6 @@ public interface PriceRepository extends JpaRepository<Price, PriceId> {
 
     List<Price> findByPharmacyId(Long pharmacyId);
 
-    List<Price> findByMedicineIdAndPharmacyId(Long medicineId, Long pharmacyId);
+    Optional<Price> findByPharmacyIdAndMedicineId(Long pharmacyId, Long medicineId);
 
 }
