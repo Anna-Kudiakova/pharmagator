@@ -24,14 +24,14 @@ public class PriceController {
     private final PriceService priceService;
 
     @GetMapping
-    public ResponseEntity<List<Price>> getAll(@RequestParam(required = false) Long medicineId,
+    public List<Price> getAll(@RequestParam(required = false) Long medicineId,
                                               @RequestParam(required = false) Long pharmacyId) {
         if (medicineId != null)
-            return ResponseEntity.ok(this.priceService.findByMedicineId(medicineId));
+            return this.priceService.findByMedicineId(medicineId);
         else if (pharmacyId != null)
-            return ResponseEntity.ok(this.priceService.findByPharmacyId(medicineId));
+            return this.priceService.findByPharmacyId(medicineId);
         else
-            return ResponseEntity.ok(this.priceService.findAll());
+            return this.priceService.findAll();
     }
 
     @GetMapping("pharmacies/{pharmacy-id}/medicines/{medicine-id}")

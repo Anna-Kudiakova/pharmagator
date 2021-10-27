@@ -21,9 +21,9 @@ public class MedicineController {
     private final MedicineService medicineService;
 
     @GetMapping
-    public ResponseEntity<List<Medicine>> getAll() {
+    public List<Medicine> getAll() {
 
-        return ResponseEntity.ok(this.medicineService.findAll());
+        return this.medicineService.findAll();
     }
 
     @GetMapping("/{id}")

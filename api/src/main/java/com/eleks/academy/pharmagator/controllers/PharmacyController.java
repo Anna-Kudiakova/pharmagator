@@ -28,9 +28,9 @@ public class PharmacyController {
     private final PharmacyService pharmacyService;
 
     @GetMapping
-    public ResponseEntity<List<Pharmacy>> getAll() {
+    public List<Pharmacy> getAll() {
 
-        return ResponseEntity.ok(this.pharmacyService.findAll());
+        return this.pharmacyService.findAll();
     }
 
     @GetMapping("/{id}")
