@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PharmacyDto {
 
-    private Long id;
+    private int id;
     private String name;
     private String medicineLinkTemplate;
 
