@@ -1,10 +1,7 @@
 package com.eleks.academy.pharmagator.controllers;
 
 import com.eleks.academy.pharmagator.controllers.dto.PharmacyDto;
-import com.eleks.academy.pharmagator.entities.Medicine;
 import com.eleks.academy.pharmagator.entities.Pharmacy;
-import com.eleks.academy.pharmagator.repositories.PharmacyRepository;
-import com.eleks.academy.pharmagator.services.MedicineService;
 import com.eleks.academy.pharmagator.services.PharmacyService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

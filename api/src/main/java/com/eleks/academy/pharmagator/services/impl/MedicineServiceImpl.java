@@ -1,9 +1,10 @@
-package com.eleks.academy.pharmagator.services;
+package com.eleks.academy.pharmagator.services.impl;
 
 import com.eleks.academy.pharmagator.controllers.dto.MedicineDto;
 import com.eleks.academy.pharmagator.entities.Medicine;
 import com.eleks.academy.pharmagator.entities.Pharmacy;
 import com.eleks.academy.pharmagator.repositories.MedicineRepository;
+import com.eleks.academy.pharmagator.services.MedicineService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

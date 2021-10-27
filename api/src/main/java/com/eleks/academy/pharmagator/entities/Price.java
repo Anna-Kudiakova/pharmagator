@@ -10,6 +10,7 @@ import java.time.Instant;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "prices")
 @IdClass(PriceId.class)
 public class Price {
