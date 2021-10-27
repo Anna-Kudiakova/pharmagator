@@ -57,6 +57,7 @@ public class MedicineController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id) {
+
         this.medicineService.deleteById(id);
     }
 }

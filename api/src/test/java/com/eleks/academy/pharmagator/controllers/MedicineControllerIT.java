@@ -15,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -25,12 +26,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class PharmacyControllerIT {
+public class MedicineControllerIT {
 
     private MockMvc mockMvc;
     private DatabaseDataSourceConnection dataSourceConnection;
 
-    private final String urlTemplate = "/pharmacies";
+    private final String urlTemplate = "/medicines";
 
     @Autowired
     public void setComponents(final MockMvc mockMvc,
@@ -40,48 +41,41 @@ public class PharmacyControllerIT {
     }
 
     @Test
-    public void findAllPharmacies_empty_ok() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get(urlTemplate))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("[]"));
-    }
-
-    @Test
-    public void findAllPharmacies_findIds_ok() throws Exception {
+    public void findAllMedicines_findIds_ok() throws Exception {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
             this.mockMvc.perform(MockMvcRequestBuilders.get(urlTemplate))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(jsonPath("$[*].id",
-                            Matchers.hasItems(2021102101, 2021102102)));
+                            Matchers.hasItems(2021103101, 2021103102)));
         } finally {
             this.dataSourceConnection.close();
         }
     }
 
     @Test
-    public void findPharmacyById_ok() throws Exception {
-        final int pharmacyId = 2021102101;
+    public void findMedicinesById_ok() throws Exception {
+        final int medicineId = 2021103101;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.get(urlTemplate+"/{id}", pharmacyId))
+            this.mockMvc.perform(MockMvcRequestBuilders.get(urlTemplate+"/{id}", medicineId))
                     .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(jsonPath("$.name").value("PharmacyControllerIT_name1"))
-                    .andExpect(jsonPath("$.medicineLinkTemplate").value("PharmacyControllerIT_link1"));
+                    .andExpect(jsonPath("title",
+                            Matchers.equalToIgnoringCase("MedicineControllerIT_name1")));
         } finally {
             this.dataSourceConnection.close();
         }
     }
 
     @Test
-    public void findPharmacyById_notExisted_notFound() throws Exception {
-        final int pharmacyId = 2021102103;
+    public void findMedicinesById_notExisted_notFound() throws Exception {
+        final int medicineId = 2021103103;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.get(urlTemplate+"/{id}", pharmacyId))
+            this.mockMvc.perform(MockMvcRequestBuilders.get(urlTemplate+"/{id}", medicineId))
                     .andExpect(MockMvcResultMatchers.status().isNotFound());
         } finally {
             this.dataSourceConnection.close();
@@ -89,16 +83,17 @@ public class PharmacyControllerIT {
     }
 
     @Test
-    void createPharmacy_isCreated() throws Exception {
+    @Transactional
+    void createMedicine_isCreated() throws Exception {
+
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
             this.mockMvc.perform(MockMvcRequestBuilders.post(urlTemplate)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"name\": \"PharmacyControllerIT_name3\", \"medicineLinkTemplate\": \"PharmacyControllerIT_link3\" }"))
+                            .content("{\"title\": \"MedicineControllerIT_name3\"}"))
                     .andExpect(MockMvcResultMatchers.status().isCreated())
-                    .andExpect(jsonPath("$.name").value("PharmacyControllerIT_name3"))
-                    .andExpect(jsonPath("$.medicineLinkTemplate").value("PharmacyControllerIT_link3"));
+                    .andExpect(jsonPath("$.title").value("MedicineControllerIT_name3"));
         } finally {
             this.dataSourceConnection.close();
         }
@@ -106,28 +101,28 @@ public class PharmacyControllerIT {
     }
 
     @Test
-    void updatePharmacyById_isOk() throws Exception {
-        final int pharmacyId = 2021102101;
+    void updateMedicineById_isOk() throws Exception {
+        final int medicineId = 2021103101;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.put(urlTemplate+"/{id}", pharmacyId)
+            this.mockMvc.perform(MockMvcRequestBuilders.put(urlTemplate+"/{id}", medicineId)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"name\": \"new-name\"}"))
+                            .content("{\"title\": \"new-name\"}"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(jsonPath("$.name").value("new-name"));
+                    .andExpect(jsonPath("$.title").value("new-name"));
         } finally {
             this.dataSourceConnection.close();
         }
     }
 
     @Test
-    void deletePharmacyById_isOk() throws Exception {
-        final int pharmacyId = 2021102101;
+    void deleteMedicineById_isOk() throws Exception {
+        final int medicineId = 2021103101;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.delete(urlTemplate+"/{id}", pharmacyId))
+            this.mockMvc.perform(MockMvcRequestBuilders.delete(urlTemplate+"/{id}", medicineId))
                     .andExpect(MockMvcResultMatchers.status().isOk());
         } finally {
             this.dataSourceConnection.close();
@@ -136,8 +131,9 @@ public class PharmacyControllerIT {
 
 
     private IDataSet readDataset() throws DataSetException, IOException {
+
         try (var resource = getClass()
-                .getResourceAsStream("PharmacyControllerIT_dataset.xml")) {
+                .getResourceAsStream("MedicineControllerIT_dataset.xml")) {
             return new FlatXmlDataSetBuilder()
                     .build(resource);
         }

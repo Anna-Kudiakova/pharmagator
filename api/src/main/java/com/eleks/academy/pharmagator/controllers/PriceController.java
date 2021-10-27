@@ -4,8 +4,6 @@ package com.eleks.academy.pharmagator.controllers;
 import com.eleks.academy.pharmagator.controllers.dto.PriceDto;
 import com.eleks.academy.pharmagator.entities.Pharmacy;
 import com.eleks.academy.pharmagator.entities.Price;
-import com.eleks.academy.pharmagator.entities.PriceId;
-import com.eleks.academy.pharmagator.repositories.PriceRepository;
 import com.eleks.academy.pharmagator.services.PriceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,7 +32,7 @@ public class PriceController {
             return this.priceService.findAll();
     }
 
-    @GetMapping("pharmacies/{pharmacy-id}/medicines/{medicine-id}")
+    @GetMapping("/{pharmacy-id}/{medicine-id}")
     public ResponseEntity<Price> getById(@PathVariable("pharmacy-id") Long pharmacyId,
                                          @PathVariable("medicine-id") Long medicineId) {
 
@@ -54,7 +52,7 @@ public class PriceController {
     }
 
 
-    @PutMapping("pharmacies/{pharmacy-id}/medicines/{medicine-id}")
+    @PutMapping("/{pharmacy-id}/{medicine-id}")
     public ResponseEntity<Price> update(@PathVariable("pharmacy-id") Long pharmacyId,
                                         @PathVariable("medicine-id") Long medicineId,
                                         @Valid @RequestBody PriceDto priceDto) {
@@ -67,7 +65,7 @@ public class PriceController {
         }
     }
 
-    @DeleteMapping("pharmacies/{pharmacy-id}/medicines/{medicine-id}")
+    @DeleteMapping("/{pharmacy-id}/{medicine-id}")
     public void delete(@PathVariable("pharmacy-id") Long pharmacyId, @PathVariable("medicine-id") Long medicineId) {
 
         this.priceService.deleteById(pharmacyId, medicineId);
