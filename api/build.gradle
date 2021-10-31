@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.eleks.academy'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = JavaVersion.VERSION_17
 
 configurations {
 	compileOnly {
@@ -40,5 +40,9 @@ dependencies {
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
+    testLogging {
+        events = ["passed", "skipped", "failed"]
+    }
+
 }
