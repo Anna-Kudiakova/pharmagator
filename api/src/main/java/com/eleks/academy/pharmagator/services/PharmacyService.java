@@ -1,6 +1,6 @@
 package com.eleks.academy.pharmagator.services;
 
-import com.eleks.academy.pharmagator.controllers.dto.PharmacyDto;
+import com.eleks.academy.pharmagator.dataproviders.dto.input.PharmacyDto;
 import com.eleks.academy.pharmagator.entities.Pharmacy;
 
 import java.util.List;
@@ -17,4 +17,5 @@ public interface PharmacyService {
     Optional<Pharmacy> update(Long id, PharmacyDto pharmacyDto);
 
     void deleteById(Long id);
+
 }
