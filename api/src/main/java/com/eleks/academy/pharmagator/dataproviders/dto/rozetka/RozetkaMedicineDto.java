@@ -1,4 +1,4 @@
-package com.eleks.academy.pharmagator.dataproviders.dto.ds;
+package com.eleks.academy.pharmagator.dataproviders.dto.rozetka;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,11 +9,9 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DSMedicineDto {
+public class RozetkaMedicineDto {
 
-    private String id;
-    private String name;
+    private Long id;
+    private String title;
     private BigDecimal price;
-    private String manufacturer;
-
 }
