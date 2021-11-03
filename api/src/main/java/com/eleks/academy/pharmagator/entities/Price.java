@@ -8,19 +8,22 @@ import java.time.Instant;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
 @Table(name = "prices")
 @IdClass(PriceId.class)
 public class Price {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pharmacyId;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long medicineId;
+
     private BigDecimal price;
+
     private String externalId;
+
     private Instant updatedAt;
 }

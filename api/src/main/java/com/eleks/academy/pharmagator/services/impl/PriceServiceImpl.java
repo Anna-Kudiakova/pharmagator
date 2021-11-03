@@ -1,9 +1,10 @@
 package com.eleks.academy.pharmagator.services.impl;
 
-import com.eleks.academy.pharmagator.controllers.dto.PriceDto;
-import com.eleks.academy.pharmagator.entities.Pharmacy;
+import com.eleks.academy.pharmagator.dataproviders.dto.input.PriceDto;
 import com.eleks.academy.pharmagator.entities.Price;
 import com.eleks.academy.pharmagator.entities.PriceId;
+import com.eleks.academy.pharmagator.repositories.MedicineRepository;
+import com.eleks.academy.pharmagator.repositories.PharmacyRepository;
 import com.eleks.academy.pharmagator.repositories.PriceRepository;
 import com.eleks.academy.pharmagator.services.PriceService;
 import lombok.RequiredArgsConstructor;
@@ -18,20 +19,14 @@ import java.util.Optional;
 public class PriceServiceImpl implements PriceService {
 
     private final PriceRepository priceRepository;
+    private final MedicineRepository medicineRepository;
+    private final PharmacyRepository pharmacyRepository;
 
     private final ModelMapper modelMapper;
 
     @Override
     public List<Price> findAll() {
-
         return priceRepository.findAll();
-    }
-
-    @Override
-    public Optional<Price> findById(Long pharmacyId, Long medicineId) {
-
-        PriceId priceId = new PriceId(pharmacyId, medicineId);
-        return priceRepository.findById(priceId);
     }
 
     @Override
@@ -47,8 +42,13 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public Price save(PriceDto priceDto) {
+    public Optional<Price> findById(Long pharmacyId, Long medicineId) {
+        PriceId priceId = new PriceId(pharmacyId, medicineId);
+        return this.priceRepository.findById(priceId);
+    }
 
+    @Override
+    public Price save(PriceDto priceDto) {
         Price price = modelMapper.map(priceDto, Price.class);
         return priceRepository.save(price);
     }
@@ -57,10 +57,13 @@ public class PriceServiceImpl implements PriceService {
     public Optional<Price> update(Long pharmacyId, Long medicineId, PriceDto priceDto) {
 
         PriceId priceId = new PriceId(pharmacyId, medicineId);
-        return priceRepository.findById(priceId)
-                .map(pharmacy -> {
-                    pharmacy = modelMapper.map(priceDto, Price.class);
-                    return priceRepository.save(pharmacy);
+
+        return this.priceRepository.findById(priceId)
+                .map(source -> {
+                    Price price = modelMapper.map(priceDto, Price.class);
+                    price.setPharmacyId(pharmacyId);
+                    price.setMedicineId(medicineId);
+                    return priceRepository.save(price);
                 });
     }
 
@@ -69,4 +72,5 @@ public class PriceServiceImpl implements PriceService {
         PriceId priceId = new PriceId(pharmacyId, medicineId);
         priceRepository.deleteById(priceId);
     }
+
 }

@@ -1,6 +1,6 @@
 package com.eleks.academy.pharmagator.services;
 
-import com.eleks.academy.pharmagator.controllers.dto.PriceDto;
+import com.eleks.academy.pharmagator.dataproviders.dto.input.PriceDto;
 import com.eleks.academy.pharmagator.entities.Pharmacy;
 import com.eleks.academy.pharmagator.entities.Price;
 
