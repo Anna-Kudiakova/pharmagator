@@ -1,86 +1,54 @@
 package com.eleks.academy.pharmagator.controllers;
 
-import com.eleks.academy.pharmagator.controllers.dto.PharmacyDto;
-import com.eleks.academy.pharmagator.entities.Medicine;
+import com.eleks.academy.pharmagator.dataproviders.dto.input.PharmacyDto;
 import com.eleks.academy.pharmagator.entities.Pharmacy;
-import com.eleks.academy.pharmagator.repositories.PharmacyRepository;
-import com.eleks.academy.pharmagator.services.MedicineService;
 import com.eleks.academy.pharmagator.services.PharmacyService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/pharmacies")
 @RequiredArgsConstructor
+@RequestMapping("/pharmacies")
 public class PharmacyController {
 
     private final PharmacyService pharmacyService;
 
     @GetMapping
     public List<Pharmacy> getAll() {
-
         return this.pharmacyService.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Pharmacy> getById(@PathVariable("id") long id) {
+    @GetMapping("/{id:[\\d]+}")
+    public ResponseEntity<Pharmacy> getById(@PathVariable Long id) {
 
-        Optional<Pharmacy> pharmacyData = this.pharmacyService.findById(id);
-        if (pharmacyData.isPresent()) {
-            return new ResponseEntity(pharmacyData.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return this.pharmacyService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
 
     @PostMapping
     public ResponseEntity<Pharmacy> create(@Valid @RequestBody PharmacyDto pharmacyDto) {
-
-        return new ResponseEntity<>(this.pharmacyService.save(pharmacyDto), HttpStatus.CREATED);
+        return ResponseEntity.ok(this.pharmacyService.save(pharmacyDto));
     }
 
+    @PutMapping("/{id:[\\d]+}")
+    public ResponseEntity<Pharmacy> update(
+            @PathVariable Long id,
+            @Valid @RequestBody PharmacyDto pharmacyDto) {
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Pharmacy> update(@PathVariable("id") Long id, @Valid @RequestBody PharmacyDto pharmacyDto) {
-
-        Optional<Pharmacy> pharmacyData = this.pharmacyService.update(id, pharmacyDto);
-        if (pharmacyData.isPresent()) {
-            return new ResponseEntity<>(pharmacyData.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return this.pharmacyService.update(id, pharmacyDto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") long id) {
-
+    @DeleteMapping("/{id:[\\d]+}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         this.pharmacyService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
-
-
-}
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class PharmacyRequest {
-
-    @NotEmpty
-    private String name;
-
-    @NotEmpty
-    private String medicineLinkTemplate;
 
 }

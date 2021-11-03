@@ -6,20 +6,26 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-@Entity
 @Data
-@AllArgsConstructor
+@Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "prices")
 @IdClass(PriceId.class)
 public class Price {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pharmacyId;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long medicineId;
+
     private BigDecimal price;
+
     private String externalId;
+
+    @Column(insertable = false, updatable = false)
     private Instant updatedAt;
+
 }
