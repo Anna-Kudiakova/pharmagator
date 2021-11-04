@@ -21,3 +21,10 @@ pharmagator:
     apteka-liki24:
       url: https://liki24.com/vnext/api/catalogue/8000001/products
       initial-page-index: 1
+    apteka-rozetka:
+      url: https://xl-catalog-api.rozetka.com.ua/v4
+      product-ids-fetch-url: /goods/get
+      products-fetch-url: /goods/getDetails
+      sell-status: available
+      category-id: !!str 4628621
+      medicament-category-id: !!str 4628712
