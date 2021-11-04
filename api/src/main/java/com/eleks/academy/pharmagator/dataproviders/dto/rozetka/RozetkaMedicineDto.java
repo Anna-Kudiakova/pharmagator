@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 public class RozetkaMedicineDto {
 
     private Long id;
+    private String mpath;
     private String title;
     private BigDecimal price;
 }

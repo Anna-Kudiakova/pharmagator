@@ -34,6 +34,9 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
     @Value("${pharmagator.data-providers.apteka-rozetka.category-id}")
     private String categoryId;
 
+    @Value("${pharmagator.data-providers.apteka-rozetka.medicament-category-id}")
+    private String medicamentCategoryId;
+
     @Value("${pharmagator.data-providers.apteka-rozetka.sell-status}")
     private String sellStatus;
 
@@ -84,7 +87,9 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
                 })
                 .block();
         if (rozetkaMedicineResponse != null)
-            return rozetkaMedicineResponse.getData().stream().map(rozetkaMedicineDto -> mapToMedicineDto(rozetkaMedicineDto));
+            return rozetkaMedicineResponse.getData().stream()
+                    .filter(rozetkaMedicineDto -> rozetkaMedicineDto.getMpath().contains(medicamentCategoryId))
+                    .map(rozetkaMedicineDto -> mapToMedicineDto(rozetkaMedicineDto));
         return Stream.empty();
     }
 

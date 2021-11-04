@@ -20,6 +20,7 @@ pharmagator:
       products-fetch-url: /goods/getDetails
       sell-status: available
       category-id: !!str 4628621
+      medicament-category-id: !!str 4628712
 
 
 
