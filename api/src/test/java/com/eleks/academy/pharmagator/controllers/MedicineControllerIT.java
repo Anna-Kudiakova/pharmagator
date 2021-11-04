@@ -83,7 +83,7 @@ public class MedicineControllerIT {
     }
 
     @Test
-    void createMedicine_isCreated() throws Exception {
+    void createMedicine_isOk() throws Exception {
 
         try {
             DatabaseOperation.CLEAN_INSERT.execute(this.dataSourceConnection, readDataset());
@@ -91,7 +91,7 @@ public class MedicineControllerIT {
             this.mockMvc.perform(MockMvcRequestBuilders.post(urlTemplate)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content("{\"title\": \"MedicineControllerIT_name3\"}"))
-                    .andExpect(MockMvcResultMatchers.status().isCreated())
+                    .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(jsonPath("$.title").value("MedicineControllerIT_name3"));
         } finally {
             this.dataSourceConnection.close();
@@ -116,13 +116,13 @@ public class MedicineControllerIT {
     }
 
     @Test
-    void deleteMedicineById_isOk() throws Exception {
+    void deleteMedicineById_isNoContent() throws Exception {
         final int medicineId = 2021103101;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
             this.mockMvc.perform(MockMvcRequestBuilders.delete(urlTemplate+"/{id}", medicineId))
-                    .andExpect(MockMvcResultMatchers.status().isOk());
+                    .andExpect(MockMvcResultMatchers.status().isNoContent());
         } finally {
             this.dataSourceConnection.close();
         }

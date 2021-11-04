@@ -1,6 +1,6 @@
 package com.eleks.academy.pharmagator.controllers;
 
-import com.eleks.academy.pharmagator.controllers.dto.PharmacyDto;
+import com.eleks.academy.pharmagator.dataproviders.dto.input.PharmacyDto;
 import com.eleks.academy.pharmagator.entities.Pharmacy;
 import com.eleks.academy.pharmagator.services.PharmacyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -103,14 +103,14 @@ public class PharmacyControllerTest {
 
 
     @Test
-    void createPharmacy_isCreated() throws Exception{
+    void createPharmacy_isOk() throws Exception{
 
         when(pharmacyService.save(Mockito.any(PharmacyDto.class))).thenReturn(testPharmacy);
 
         this.mockMvc.perform(post(urlTemplate)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testPharmacy)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(testPharmacy.getId()))
                 .andExpect(jsonPath("$.name").value(testPharmacy.getName()))
                 .andExpect(jsonPath("$.medicineLinkTemplate").value(testPharmacy.getMedicineLinkTemplate()));
@@ -159,13 +159,13 @@ public class PharmacyControllerTest {
     }
 
     @Test
-    void deletePharmacyById_isOk() throws Exception {
+    void deletePharmacyById_isNoContent() throws Exception {
 
         final Long pharmacyId = 1L;
 
         doNothing().when(pharmacyService).deleteById(pharmacyId);
         mockMvc.perform(delete(urlTemplate+"/{id}", pharmacyId))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         verify(pharmacyService, times(1)).deleteById(pharmacyId);
 

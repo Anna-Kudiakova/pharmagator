@@ -86,14 +86,14 @@ public class PharmacyControllerIT {
     }
 
     @Test
-    void createPharmacy_isCreated() throws Exception {
+    void createPharmacy_isOk() throws Exception {
         try {
             DatabaseOperation.CLEAN_INSERT.execute(this.dataSourceConnection, readDataset());
 
             this.mockMvc.perform(MockMvcRequestBuilders.post(urlTemplate)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content("{\"name\": \"PharmacyControllerIT_name3\", \"medicineLinkTemplate\": \"PharmacyControllerIT_link3\" }"))
-                    .andExpect(MockMvcResultMatchers.status().isCreated())
+                    .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(jsonPath("$.name").value("PharmacyControllerIT_name3"))
                     .andExpect(jsonPath("$.medicineLinkTemplate").value("PharmacyControllerIT_link3"));
         } finally {
@@ -119,13 +119,13 @@ public class PharmacyControllerIT {
     }
 
     @Test
-    void deletePharmacyById_isOk() throws Exception {
+    void deletePharmacyById_isNoContent() throws Exception {
         final int pharmacyId = 2021102101;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
             this.mockMvc.perform(MockMvcRequestBuilders.delete(urlTemplate+"/{id}", pharmacyId))
-                    .andExpect(MockMvcResultMatchers.status().isOk());
+                    .andExpect(MockMvcResultMatchers.status().isNoContent());
         } finally {
             this.dataSourceConnection.close();
         }

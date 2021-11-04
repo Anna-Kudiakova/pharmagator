@@ -8,8 +8,9 @@ import java.time.Instant;
 
 @Entity
 @Data
-@Builder
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "prices")
 @IdClass(PriceId.class)
 public class Price {

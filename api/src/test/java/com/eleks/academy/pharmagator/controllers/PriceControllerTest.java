@@ -1,6 +1,6 @@
 package com.eleks.academy.pharmagator.controllers;
 
-import com.eleks.academy.pharmagator.controllers.dto.PriceDto;
+import com.eleks.academy.pharmagator.dataproviders.dto.input.PriceDto;
 import com.eleks.academy.pharmagator.entities.Price;
 import com.eleks.academy.pharmagator.services.PriceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,7 +86,7 @@ public class PriceControllerTest {
         final Long medicineId = 1L;
         when(priceService.findById(pharmacyId, medicineId)).thenReturn(Optional.ofNullable(testPrice));
 
-        this.mockMvc.perform(get(urlTemplate+"/{pharmacyId}/{medicineId}", pharmacyId, medicineId))
+        this.mockMvc.perform(get(urlTemplate+"/pharmacyId/{pharmacyId}/medicineId/{medicineId}", pharmacyId, medicineId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.price").value(testPrice.getPrice()))
                 .andExpect(jsonPath("$.externalId").value(testPrice.getExternalId()));
@@ -100,7 +101,7 @@ public class PriceControllerTest {
         final Long medicineId = 1L;
         when(priceService.findById(pharmacyId, medicineId)).thenReturn(Optional.empty());
 
-        this.mockMvc.perform(get(urlTemplate+"/{pharmacyId}/{medicineId}", pharmacyId, medicineId))
+        this.mockMvc.perform(get(urlTemplate+"/pharmacyId/{pharmacyId}/medicineId/{medicineId}", pharmacyId, medicineId))
                 .andExpect(status().isNotFound());
 
         verify(priceService, times(1)).findById(pharmacyId, medicineId);
@@ -109,14 +110,14 @@ public class PriceControllerTest {
 
 
     @Test
-    void createPrice_isCreated() throws Exception{
+    void createPrice_isOk() throws Exception{
 
         when(priceService.save(Mockito.any(PriceDto.class))).thenReturn(testPrice);
 
         this.mockMvc.perform(post(urlTemplate)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testPrice)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.pharmacyId").value(testPrice.getPharmacyId()))
                 .andExpect(jsonPath("$.medicineId").value(testPrice.getMedicineId()))
                 .andExpect(jsonPath("$.price").value(testPrice.getPrice()))
@@ -133,7 +134,7 @@ public class PriceControllerTest {
         final Long medicineId = 1L;
         when(priceService.update(eq(pharmacyId), eq(medicineId), any(PriceDto.class))).thenReturn(Optional.ofNullable(testPrice));
 
-        this.mockMvc.perform(put(urlTemplate+"/{pharmacyId}/{medicineId}", pharmacyId, medicineId)
+        this.mockMvc.perform(put(urlTemplate+"/pharmacyId/{pharmacyId}/medicineId/{medicineId}", pharmacyId, medicineId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testPrice)))
                 .andExpect(status().isOk())
@@ -158,7 +159,7 @@ public class PriceControllerTest {
                 .externalId("2")
                 .build();
 
-        this.mockMvc.perform(put(urlTemplate+"/{pharmacyId}/{medicineId}", pharmacyId, medicineId)
+        this.mockMvc.perform(put(urlTemplate+"/pharmacyId/{pharmacyId}/medicineId/{medicineId}", pharmacyId, medicineId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testPrice2)))
                 .andExpect(status().isNotFound());
@@ -168,14 +169,14 @@ public class PriceControllerTest {
     }
 
     @Test
-    void deletePriceById_isOk() throws Exception {
+    void deletePriceById_isNoContent() throws Exception {
 
         final Long pharmacyId = 1L;
         final Long medicineId = 1L;
 
         doNothing().when(priceService).deleteById(pharmacyId, medicineId);
-        mockMvc.perform(delete(urlTemplate+"/{pharmacyId}/{medicineId}", pharmacyId, medicineId))
-                .andExpect(status().isOk());
+        mockMvc.perform(delete(urlTemplate+"/pharmacyId/{pharmacyId}/medicineId/{medicineId}", pharmacyId, medicineId))
+                .andExpect(status().isNoContent());
 
         verify(priceService, times(1)).deleteById(pharmacyId, medicineId);
 
