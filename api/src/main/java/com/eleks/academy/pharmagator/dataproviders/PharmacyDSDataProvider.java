@@ -19,14 +19,12 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Service
+@RequiredArgsConstructor
 @Qualifier("pharmacyDSDataProvider")
 public class PharmacyDSDataProvider implements DataProvider {
 
-	private final WebClient dsClient;
-
-    public PharmacyDSDataProvider(@Qualifier("pharmacyDSWebClient") WebClient dsClient) {
-        this.dsClient = dsClient;
-    }
+    @Qualifier("pharmacyDSWebClient")
+    private final WebClient dsClient;
 
     @Value("${pharmagator.data-providers.apteka-ds.category-fetch-url}")
     private String categoriesFetchUrl;

@@ -6,6 +6,7 @@ import com.eleks.academy.pharmagator.dataproviders.dto.rozetka.RozetkaMedicineDt
 import com.eleks.academy.pharmagator.dataproviders.dto.rozetka.RozetkaMedicineResponse;
 import com.eleks.academy.pharmagator.dataproviders.dto.rozetka.RozetkaProductIdsResponse;
 import com.eleks.academy.pharmagator.dataproviders.dto.rozetka.RozetkaProductIdsResponseData;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,21 +19,21 @@ import java.util.stream.Stream;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 @Qualifier("pharmacyRozetkaDataProvider")
 public class PharmacyRozetkaDataProvider implements DataProvider {
 
-
+    @Qualifier("pharmacyRozetkaWebClient")
     private final WebClient rozetkaClient;
-
-    public PharmacyRozetkaDataProvider(@Qualifier("pharmacyRozetkaWebClient") WebClient rozetkaClient) {
-        this.rozetkaClient = rozetkaClient;
-    }
 
     @Value("${pharmagator.data-providers.apteka-rozetka.product-ids-fetch-url}")
     private String productIdsFetchUrl;
 
     @Value("${pharmagator.data-providers.apteka-rozetka.category-id}")
     private String categoryId;
+
+    @Value("${pharmagator.data-providers.apteka-rozetka.medicament-category-id}")
+    private String medicamentCategoryId;
 
     @Value("${pharmagator.data-providers.apteka-rozetka.sell-status}")
     private String sellStatus;
@@ -84,7 +85,9 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
                 })
                 .block();
         if (rozetkaMedicineResponse != null)
-            return rozetkaMedicineResponse.getData().stream().map(rozetkaMedicineDto -> mapToMedicineDto(rozetkaMedicineDto));
+            return rozetkaMedicineResponse.getData().stream()
+                    .filter(rozetkaMedicineDto -> rozetkaMedicineDto.getMpath().contains(medicamentCategoryId))
+                    .map(rozetkaMedicineDto -> mapToMedicineDto(rozetkaMedicineDto));
         return Stream.empty();
     }
 

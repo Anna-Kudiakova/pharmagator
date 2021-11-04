@@ -52,8 +52,8 @@ public class Scheduler {
     }
 
     private void storeToDatabase(MedicineDto dto) {
-       //log.info(dto.getTitle() + " - " + dto.getPrice());
-        Medicine medicine = modelMapper.map(dto, Medicine.class);
+       log.info(dto.getTitle() + " - " + dto.getPrice());
+        /*Medicine medicine = modelMapper.map(dto, Medicine.class);
         Price price = modelMapper.map(dto, Price.class);
         pharmacyRepository.save(pharmacy);
         medicine.setId(null);
@@ -62,7 +62,7 @@ public class Scheduler {
         price.setPharmacyId(pharmacy.getId());
         price.setUpdatedAt(Instant.now());
         price.setExternalId(dto.getExternalId());
-        priceRepository.save(price);
+        priceRepository.save(price);*/
     }
 
 

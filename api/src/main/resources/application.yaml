@@ -20,6 +20,7 @@ pharmagator:
       products-fetch-url: /goods/getDetails
       sell-status: available
       category-id: !!str 4628621
+      medicament-category-id: !!str 4628712
     pharmacy-anc:
       url: https://anc.ua/productbrowser/v2/ua
       category-fetch-url: /categories

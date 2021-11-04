@@ -20,15 +20,11 @@ import java.util.stream.Stream;
 
 @Service
 @Qualifier("pharmacyANCDataProvider")
+@RequiredArgsConstructor
 public class PharmacyANCDataProvider implements DataProvider {
 
     @Qualifier("pharmacyANCWebClient")
     private final WebClient ancClient;
-
-    public PharmacyANCDataProvider(@Qualifier("ancClient") WebClient ancClient) {
-        this.ancClient = ancClient;
-    }
-
 
     @Value("${pharmagator.data-providers.pharmacy-anc.category-fetch-url}")
     private String categoriesFetchUrl;
