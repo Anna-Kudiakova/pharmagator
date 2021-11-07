@@ -69,6 +69,8 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
     }
 
     private Stream<MedicineDto> fetchProducts(List<Long> productIdsList) {
+        if(productIdsList.isEmpty())
+            return Stream.empty();
         StringBuilder productIds = new StringBuilder();
         for (int i = 0; i < productIdsList.size(); i++) {
             productIds.append(productIdsList.get(i));
