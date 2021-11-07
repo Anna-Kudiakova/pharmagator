@@ -17,5 +17,4 @@ public class RozetkaProductIdsResponseData {
     @JsonProperty("show_next")
     private int showNext;
 
-
 }
