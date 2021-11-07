@@ -83,11 +83,13 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
                 .bodyToMono(new ParameterizedTypeReference<RozetkaMedicineResponse>() {
                 })
                 .block();
-        if (rozetkaMedicineResponse != null)
+        if (rozetkaMedicineResponse == null)
+            return Stream.empty();
+        else
             return rozetkaMedicineResponse.getData().stream()
                     .filter(rozetkaMedicineDto -> rozetkaMedicineDto.getMpath().contains(medicamentCategoryId))
                     .map(rozetkaMedicineDto -> mapToMedicineDto(rozetkaMedicineDto));
-        return Stream.empty();
+
     }
 
     private MedicineDto mapToMedicineDto(RozetkaMedicineDto rozetkaMedicineDto) {
