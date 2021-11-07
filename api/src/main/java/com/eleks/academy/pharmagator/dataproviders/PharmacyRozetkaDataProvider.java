@@ -70,8 +70,9 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
     }
 
     private Stream<MedicineDto> fetchProducts(List<Long> productIdsList) {
-        if(productIdsList.isEmpty())
+        if(productIdsList.isEmpty()) {
             return Stream.empty();
+        }
         String productIds = productIdsList.stream()
                 .map(n -> n.toString())
                 .collect(Collectors.joining(","));
