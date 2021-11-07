@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -71,13 +72,9 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
     private Stream<MedicineDto> fetchProducts(List<Long> productIdsList) {
         if(productIdsList.isEmpty())
             return Stream.empty();
-        StringBuilder productIds = new StringBuilder();
-        for (int i = 0; i < productIdsList.size(); i++) {
-            productIds.append(productIdsList.get(i));
-            if (i != (productIdsList.size() - 1))
-                productIds.append(",");
-        }
-        productIds.toString();
+        String productIds = productIdsList.stream()
+                .map(n -> n.toString())
+                .collect(Collectors.joining(","));
         RozetkaMedicineResponse rozetkaMedicineResponse = this.rozetkaClient.get().uri(u -> u
                         .path(productsPath)
                         .queryParam("product_ids", productIds)
