@@ -14,7 +14,9 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -84,12 +86,10 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
                 .bodyToMono(new ParameterizedTypeReference<RozetkaMedicineResponse>() {
                 })
                 .block();
-        if (rozetkaMedicineResponse == null)
-            return Stream.empty();
-        else
-            return rozetkaMedicineResponse.getData().stream()
-                    .filter(rozetkaMedicineDto -> rozetkaMedicineDto.getMpath().contains(medicamentCategoryId))
-                    .map(rozetkaMedicineDto -> mapToMedicineDto(rozetkaMedicineDto));
+        return Optional.ofNullable(rozetkaMedicineResponse).map(RozetkaMedicineResponse::getData).stream()
+                .flatMap(Collection::stream)
+                .filter(rozetkaMedicineDto -> rozetkaMedicineDto.getMpath().contains(medicamentCategoryId))
+                .map(this::mapToMedicineDto);
 
     }
 
