@@ -46,18 +46,19 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
 
     @Override
     public Stream<MedicineDto> loadData() {
-        RozetkaProductIdsResponseData rozetkaProductIdsResponse;
+        Optional<RozetkaProductIdsResponseData> rozetkaProductIdsResponse;
         Stream<MedicineDto> medicineDtoStream = Stream.of();
         int page = 1;
         do {
             rozetkaProductIdsResponse = this.fetchProductIds(page);
-            medicineDtoStream = Stream.concat(medicineDtoStream, this.fetchProducts(rozetkaProductIdsResponse.getIds()));
+            medicineDtoStream = Stream.concat(medicineDtoStream, this.fetchProducts(rozetkaProductIdsResponse
+                            .map(RozetkaProductIdsResponseData::getIds).get()));
             page++;
-        } while (rozetkaProductIdsResponse.getShowNext() != 0);
+        } while (rozetkaProductIdsResponse.map(RozetkaProductIdsResponseData::getShowNext).get() != 0);
         return medicineDtoStream;
     }
 
-    private RozetkaProductIdsResponseData fetchProductIds(int page) {
+    private Optional<RozetkaProductIdsResponseData> fetchProductIds(int page) {
         RozetkaProductIdsResponse productIds = this.rozetkaClient.get().uri(u -> u
                         .path(productIdsFetchUrl)
                         .queryParam("category_id", categoryId)
@@ -68,7 +69,7 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
                 .bodyToMono(new ParameterizedTypeReference<RozetkaProductIdsResponse>() {
                 })
                 .block();
-        return productIds.getData();
+        return Optional.ofNullable(productIds.getData());
     }
 
     private Stream<MedicineDto> fetchProducts(List<Long> productIdsList) {
