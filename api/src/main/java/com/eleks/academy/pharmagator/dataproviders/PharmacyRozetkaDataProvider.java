@@ -76,7 +76,7 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
             return Stream.empty();
         }
         String productIds = productIdsList.stream()
-                .map(n -> n.toString())
+                .map(Object::toString)
                 .collect(Collectors.joining(","));
         RozetkaMedicineResponse rozetkaMedicineResponse = this.rozetkaClient.get().uri(u -> u
                         .path(productsPath)
