@@ -46,16 +46,12 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
 
     @Override
     public Stream<MedicineDto> loadData() {
-        Optional<RozetkaProductIdsResponseData> rozetkaProductIdsResponse;
-        Stream<MedicineDto> medicineDtoStream = Stream.of();
-        int page = 1;
-        do {
-            rozetkaProductIdsResponse = this.fetchProductIds(page);
-            medicineDtoStream = Stream.concat(medicineDtoStream, this.fetchProducts(rozetkaProductIdsResponse
-                            .map(RozetkaProductIdsResponseData::getIds).get()));
-            page++;
-        } while (rozetkaProductIdsResponse.map(RozetkaProductIdsResponseData::getShowNext).get() != 0);
-        return medicineDtoStream;
+        return Stream.iterate(1, page -> page + 1)
+                .map(this::fetchProductIds)
+                .takeWhile(response -> response.map(RozetkaProductIdsResponseData::getShowNext).get() != 0)
+                .map(Optional::get)
+                .map(RozetkaProductIdsResponseData::getIds)
+                .flatMap(this::fetchProducts);
     }
 
     private Optional<RozetkaProductIdsResponseData> fetchProductIds(int page) {
