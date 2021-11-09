@@ -16,6 +16,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -85,7 +86,9 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
                 .block();
         return Optional.ofNullable(rozetkaMedicineResponse).map(RozetkaMedicineResponse::getData).stream()
                 .flatMap(Collection::stream)
-                .filter(rozetkaMedicineDto -> rozetkaMedicineDto.getMpath().contains(medicamentCategoryId))
+                .filter(rozetkaMedicineDto -> Objects.nonNull(rozetkaMedicineDto.getId())
+                        && Objects.nonNull(rozetkaMedicineDto.getMpath())
+                        && rozetkaMedicineDto.getMpath().contains(medicamentCategoryId))
                 .map(this::mapToMedicineDto);
 
     }
