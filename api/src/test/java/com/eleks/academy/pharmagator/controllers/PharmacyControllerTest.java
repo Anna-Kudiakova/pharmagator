@@ -4,6 +4,7 @@ import com.eleks.academy.pharmagator.dataproviders.dto.input.PharmacyDto;
 import com.eleks.academy.pharmagator.entities.Pharmacy;
 import com.eleks.academy.pharmagator.services.PharmacyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -38,18 +39,18 @@ public class PharmacyControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private static ObjectMapper objectMapper;
 
     @MockBean
     private PharmacyService pharmacyService;
 
-    private Pharmacy testPharmacy;
-    private ModelMapper modelMapper;
+    private static Pharmacy testPharmacy;
+    private static ModelMapper modelMapper;
 
 
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         objectMapper = new ObjectMapper();
         modelMapper = new ModelMapper();
         testPharmacy = Pharmacy.builder()
