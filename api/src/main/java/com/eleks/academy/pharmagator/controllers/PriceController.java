@@ -34,9 +34,12 @@ public class PriceController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public Price create(@Valid @RequestBody PriceDto priceDto) {
-        return this.priceService.save(priceDto);
+    @PostMapping("/pharmacyId/{pharmacyId:[\\d]+}/medicineId/{medicineId:[\\d]+}")
+    public Price create(
+            @Valid @RequestBody PriceDto priceDto,
+            @PathVariable Long pharmacyId,
+            @PathVariable Long medicineId) {
+        return this.priceService.save(priceDto, pharmacyId, medicineId);
     }
 
     @PutMapping("/pharmacyId/{pharmacyId:[\\d]+}/medicineId/{medicineId:[\\d]+}")

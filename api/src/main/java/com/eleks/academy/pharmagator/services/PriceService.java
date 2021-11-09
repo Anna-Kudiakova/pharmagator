@@ -17,7 +17,7 @@ public interface PriceService {
 
     List<Price> findByMedicineId(Long medicineId);
 
-    Price save(PriceDto priceDto);
+    Price save(PriceDto priceDto, Long pharmacyId, Long medicineId);
 
     Optional<Price> update(Long pharmacyId, Long medicineId, PriceDto priceDto);
 

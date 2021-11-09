@@ -112,9 +112,12 @@ public class PriceControllerTest {
     @Test
     void createPrice_isOk() throws Exception{
 
-        when(priceService.save(Mockito.any(PriceDto.class))).thenReturn(testPrice);
+        final Long pharmacyId = 1L;
+        final Long medicineId = 1L;
 
-        this.mockMvc.perform(post(urlTemplate)
+        when(priceService.save(Mockito.any(PriceDto.class), eq(pharmacyId), eq(medicineId))).thenReturn(testPrice);
+
+        this.mockMvc.perform(post(urlTemplate+"/pharmacyId/{pharmacyId}/medicineId/{medicineId}", pharmacyId, medicineId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testPrice)))
                 .andExpect(status().isOk())
@@ -123,7 +126,7 @@ public class PriceControllerTest {
                 .andExpect(jsonPath("$.price").value(testPrice.getPrice()))
                 .andExpect(jsonPath("$.externalId").value(testPrice.getExternalId()));
 
-        verify(priceService, times(1)).save(modelMapper.map(testPrice, PriceDto.class));
+        verify(priceService, times(1)).save(modelMapper.map(testPrice, PriceDto.class), pharmacyId, medicineId);
 
     }
 

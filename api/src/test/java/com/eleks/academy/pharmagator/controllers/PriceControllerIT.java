@@ -91,12 +91,14 @@ public class PriceControllerIT {
 
     @Test
     void createPrice_isOk() throws Exception {
+        final int pharmacyId = 2021110701;
+        final int medicineId = 2021110702;
         try {
             DatabaseOperation.CLEAN_INSERT.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.post(urlTemplate)
+            this.mockMvc.perform(MockMvcRequestBuilders.post(urlTemplate+"/pharmacyId/{pharmacyId}/medicineId/{medicineId}", pharmacyId, medicineId)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\"pharmacyId\": \"2021110701\", \"medicineId\": \"2021110702\", \"price\": \"250.0\", \"externalId\": \"2021110703\" }"))
+                            .content("{\"price\": \"250.0\", \"externalId\": \"2021110703\" }"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(jsonPath("$.price").value("250.0"))
                     .andExpect(jsonPath("$.externalId").value("2021110703"));

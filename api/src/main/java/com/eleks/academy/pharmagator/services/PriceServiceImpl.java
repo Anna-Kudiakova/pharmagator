@@ -47,8 +47,10 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public Price save(PriceDto priceDto) {
+    public Price save(PriceDto priceDto, Long pharmacyId, Long medicineId) {
         Price price = modelMapper.map(priceDto, Price.class);
+        price.setPharmacyId(pharmacyId);
+        price.setMedicineId(medicineId);
         return priceRepository.save(price);
     }
 
