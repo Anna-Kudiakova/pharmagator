@@ -47,8 +47,8 @@ public class PharmacyControllerIT {
 
             this.mockMvc.perform(MockMvcRequestBuilders.get("/pharmacies"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(jsonPath("$[*].id",
-                            Matchers.hasItems(2021102101, 2021102102)));
+                    .andExpect(jsonPath("$[*].name",
+                            Matchers.hasItems("PharmacyControllerIT_name1", "PharmacyControllerIT_name2")));
         } finally {
             this.dataSourceConnection.close();
         }

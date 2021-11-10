@@ -1,16 +1,15 @@
 package com.eleks.academy.pharmagator.controllers;
 
 import com.eleks.academy.pharmagator.dataproviders.dto.input.PriceDto;
-import com.eleks.academy.pharmagator.entities.Medicine;
-import com.eleks.academy.pharmagator.entities.Price;
 import com.eleks.academy.pharmagator.services.PriceService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/prices")
@@ -18,35 +17,38 @@ import java.util.List;
 public class PriceController {
 
     private final PriceService priceService;
+    private final ModelMapper modelMapper;
 
     @GetMapping
-    public List<Price> getAll() {
-        return this.priceService.findAll();
+    public List<PriceDto> getAll() {
+        return priceService.findAll().stream()
+                .map(price -> modelMapper.map(price, PriceDto.class))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/pharmacyId/{pharmacyId:[\\d]+}/medicineId/{medicineId:[\\d]+}")
-    public ResponseEntity<Price> getById(
+    public ResponseEntity<PriceDto> getById(
             @PathVariable Long pharmacyId,
             @PathVariable Long medicineId) {
 
-        return this.priceService.findById(pharmacyId, medicineId)
-                .map(ResponseEntity::ok)
+        return priceService.findById(pharmacyId, medicineId)
+                .map(price -> ResponseEntity.ok(modelMapper.map(price, PriceDto.class)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Price create(@Valid @RequestBody PriceDto priceDto) {
-        return this.priceService.save(priceDto);
+    public PriceDto create(@Valid @RequestBody PriceDto priceDto) {
+        return modelMapper.map(priceService.save(priceDto), PriceDto.class);
     }
 
     @PostMapping("/pharmacyId/{pharmacyId:[\\d]+}/medicineId/{medicineId:[\\d]+}")
-    public ResponseEntity<Price> update(
+    public ResponseEntity<PriceDto> update(
             @Valid @RequestBody PriceDto priceDto,
             @PathVariable Long pharmacyId,
             @PathVariable Long medicineId) {
 
-        return this.priceService.update(pharmacyId, medicineId, priceDto)
-                .map(ResponseEntity::ok)
+        return priceService.update(pharmacyId, medicineId, priceDto)
+                .map(price -> ResponseEntity.ok(modelMapper.map(price, PriceDto.class)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -55,7 +57,7 @@ public class PriceController {
             @PathVariable Long pharmacyId,
             @PathVariable Long medicineId) {
 
-        this.priceService.deleteById(pharmacyId, medicineId);
+        priceService.deleteById(pharmacyId, medicineId);
         return ResponseEntity.noContent().build();
     }
 
