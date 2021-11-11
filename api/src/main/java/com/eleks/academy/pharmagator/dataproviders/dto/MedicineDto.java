@@ -15,4 +15,6 @@ public class MedicineDto {
 
     private String externalId;
 
+    private String pharmacyName;
+
 }

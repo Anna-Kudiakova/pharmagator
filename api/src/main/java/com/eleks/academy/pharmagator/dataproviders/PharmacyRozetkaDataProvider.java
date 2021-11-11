@@ -45,6 +45,9 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
     @Value("${pharmagator.data-providers.apteka-rozetka.products-fetch-url}")
     private String productsPath;
 
+    @Value("${pharmagator.data-providers.apteka-rozetka.pharmacy-name}")
+    private String pharmacyName;
+
     @Override
     public Stream<MedicineDto> loadData() {
         return Stream.iterate(1, page -> page + 1)
@@ -98,6 +101,7 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
                 .externalId(rozetkaMedicineDto.getId().toString())
                 .price(rozetkaMedicineDto.getPrice())
                 .title(rozetkaMedicineDto.getTitle())
+                .pharmacyName(pharmacyName)
                 .build();
     }
 

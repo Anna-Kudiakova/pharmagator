@@ -14,13 +14,16 @@ pharmagator:
       url: https://api-int.apteka-ds.com.ua/api/v1
       category-fetch-url: /category-menu
       category-path: /cat-prods-by-page
+      pharmacy-name: apteka-ds
     pharmacy-anc:
       url: https://anc.ua/productbrowser/v2/ua
       category-fetch-url: /categories
       page-size: 400
+      pharmacy-name: pharmacy-anc
     apteka-liki24:
       url: https://liki24.com/vnext/api/catalogue/8000001/products
       initial-page-index: 1
+      pharmacy-name: apteka-liki24
     apteka-rozetka:
       url: https://xl-catalog-api.rozetka.com.ua/v4
       product-ids-fetch-url: /goods/get
@@ -28,3 +31,4 @@ pharmagator:
       sell-status: available
       category-id: !!str 4628621
       medicament-category-id: !!str 4628712
+      pharmacy-name: apteka-rozetka

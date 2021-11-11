@@ -1,6 +1,10 @@
 package com.eleks.academy.pharmagator.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -26,6 +30,7 @@ public class Price {
     private String externalId;
 
     @Column(insertable = false, updatable = false)
+    @LastModifiedDate
     private Instant updatedAt;
 
 }

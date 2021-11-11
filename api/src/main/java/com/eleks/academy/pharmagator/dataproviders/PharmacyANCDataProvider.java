@@ -32,6 +32,9 @@ public class PharmacyANCDataProvider implements DataProvider {
     @Value("${pharmagator.data-providers.pharmacy-anc.page-size}")
     private Long pageSize;
 
+    @Value("${pharmagator.data-providers.pharmacy-anc.pharmacy-name}")
+    private String pharmacyName;
+
     @Override
     public Stream<MedicineDto> loadData() {
         return this.fetchCategories().stream()
@@ -78,6 +81,7 @@ public class PharmacyANCDataProvider implements DataProvider {
                 .externalId(ancMedicineDTO.getId())
                 .price(ancMedicineDTO.getPrice())
                 .title(ancMedicineDTO.getName())
+                .pharmacyName(pharmacyName)
                 .build();
     }
 
