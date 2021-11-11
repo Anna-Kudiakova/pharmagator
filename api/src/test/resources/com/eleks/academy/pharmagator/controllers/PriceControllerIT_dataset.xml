@@ -1,0 +1,8 @@
+<dataset>
+    <pharmacies id="2021110701" name="PharmacyControllerIT_name1" medicine_link_template ="PharmacyControllerIT_link1"></pharmacies>
+    <pharmacies id="2021110702" name="PharmacyControllerIT_name2" medicine_link_template ="PharmacyControllerIT_link2"></pharmacies>
+    <medicines id="2021110701" title="MedicineControllerIT_name1"></medicines>
+    <medicines id="2021110702" title="MedicineControllerIT_name2"></medicines>
+    <prices pharmacy_id="2021110701" medicine_id="2021110701" price="150" external_id ="2021110701"></prices>
+    <prices pharmacy_id="2021110702" medicine_id="2021110702" price="200" external_id ="2021110702"></prices>
+</dataset>
