@@ -70,7 +70,7 @@ public class PharmacyControllerIT {
 
     @Test
     public void findPharmacyById_ok() throws Exception {
-        final int pharmacyId = 2021111201;
+        int pharmacyId = 2021111201;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
@@ -85,7 +85,7 @@ public class PharmacyControllerIT {
 
     @Test
     public void findPharmacyById_isNotFound() throws Exception {
-        final int pharmacyId = 2021111203;
+        int pharmacyId = 2021111203;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
@@ -115,7 +115,7 @@ public class PharmacyControllerIT {
 
     @Test
     void updatePharmacyById_isOk() throws Exception {
-        final int pharmacyId = 2021111201;
+        int pharmacyId = 2021111201;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
@@ -131,7 +131,7 @@ public class PharmacyControllerIT {
 
     @Test
     void deletePharmacyById_isNoContent() throws Exception {
-        final int pharmacyId = 2021111201;
+        int pharmacyId = 2021111201;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 

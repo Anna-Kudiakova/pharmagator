@@ -70,8 +70,8 @@ public class PriceControllerIT {
 
     @Test
     public void findPriceById_ok() throws Exception {
-        final int pharmacyId = 2021111201;
-        final int medicineId = 2021111201;
+        int pharmacyId = 2021111201;
+        int medicineId = 2021111201;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
@@ -87,8 +87,8 @@ public class PriceControllerIT {
 
     @Test
     public void findPriceById_isNotFound() throws Exception {
-        final int pharmacyId = 2021110703;
-        final int medicineId = 2021110703;
+        int pharmacyId = 2021110703;
+        int medicineId = 2021110703;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
@@ -102,8 +102,8 @@ public class PriceControllerIT {
 
     @Test
     void updatePriceById_isOk() throws Exception {
-        final int pharmacyId = 2021111201;
-        final int medicineId = 2021111201;
+        int pharmacyId = 2021111201;
+        int medicineId = 2021111201;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
@@ -120,8 +120,8 @@ public class PriceControllerIT {
 
     @Test
     void deletePriceById_isNoContent() throws Exception {
-        final int pharmacyId = 2021111201;
-        final int medicineId = 2021111201;
+        int pharmacyId = 2021111201;
+        int medicineId = 2021111201;
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
