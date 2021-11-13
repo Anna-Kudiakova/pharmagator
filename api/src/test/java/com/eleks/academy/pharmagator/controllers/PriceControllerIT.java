@@ -33,7 +33,7 @@ public class PriceControllerIT {
     private MockMvc mockMvc;
     private DatabaseDataSourceConnection dataSourceConnection;
 
-    private final String uri = "/prices";
+    private final String URI = "/prices";
 
     @Autowired
     public void setComponents(final MockMvc mockMvc,
@@ -59,7 +59,7 @@ public class PriceControllerIT {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.get(uri))
+            this.mockMvc.perform(MockMvcRequestBuilders.get(URI))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(jsonPath("$[*].externalId",
                             Matchers.hasItems("2021111201","2021111202")));
@@ -75,7 +75,7 @@ public class PriceControllerIT {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.get(uri
+            this.mockMvc.perform(MockMvcRequestBuilders.get(URI
                             + "/pharmacyId/{pharmacyId}/medicineId/{medicineId}", pharmacyId, medicineId))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(jsonPath("$.price").value("150.0"))
@@ -92,7 +92,7 @@ public class PriceControllerIT {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.get(uri
+            this.mockMvc.perform(MockMvcRequestBuilders.get(URI
                             + "/pharmacyId/{pharmacyId}/medicineId/{medicineId}", pharmacyId, medicineId))
                     .andExpect(MockMvcResultMatchers.status().isNotFound());
         } finally {
@@ -107,7 +107,7 @@ public class PriceControllerIT {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.put(uri
+            this.mockMvc.perform(MockMvcRequestBuilders.put(URI
                                     + "/pharmacyId/{pharmacyId}/medicineId/{medicineId}", pharmacyId, medicineId)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content("{\"price\": \"180.0\", \"externalId\": \"2021111201\"}"))
@@ -125,7 +125,7 @@ public class PriceControllerIT {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.delete(uri
+            this.mockMvc.perform(MockMvcRequestBuilders.delete(URI
                             + "/pharmacyId/{pharmacyId}/medicineId/{medicineId}", pharmacyId, medicineId))
                     .andExpect(MockMvcResultMatchers.status().isNoContent());
         } finally {

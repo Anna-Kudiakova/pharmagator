@@ -33,7 +33,7 @@ public class MedicineControllerIT {
     private MockMvc mockMvc;
     private DatabaseDataSourceConnection dataSourceConnection;
 
-    private final String uri = "/medicines";
+    private final String URI = "/medicines";
 
     @Autowired
     public void setComponents(final MockMvc mockMvc,
@@ -55,7 +55,7 @@ public class MedicineControllerIT {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.get(uri))
+            this.mockMvc.perform(MockMvcRequestBuilders.get(URI))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(jsonPath("$[*].title",
                             Matchers.hasItems("MedicineControllerIT_name1", "MedicineControllerIT_name2")));
@@ -70,7 +70,7 @@ public class MedicineControllerIT {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.get(uri +"/{id}", medicineId))
+            this.mockMvc.perform(MockMvcRequestBuilders.get(URI +"/{id}", medicineId))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(jsonPath("title",
                             Matchers.equalToIgnoringCase("MedicineControllerIT_name1")));
@@ -85,7 +85,7 @@ public class MedicineControllerIT {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.get(uri +"/{id}", medicineId))
+            this.mockMvc.perform(MockMvcRequestBuilders.get(URI +"/{id}", medicineId))
                     .andExpect(MockMvcResultMatchers.status().isNotFound());
         } finally {
             this.dataSourceConnection.close();
@@ -98,7 +98,7 @@ public class MedicineControllerIT {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.post(uri)
+            this.mockMvc.perform(MockMvcRequestBuilders.post(URI)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content("{\"title\": \"MedicineControllerIT_name3\"}"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
@@ -115,7 +115,7 @@ public class MedicineControllerIT {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.put(uri +"/{id}", medicineId)
+            this.mockMvc.perform(MockMvcRequestBuilders.put(URI +"/{id}", medicineId)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content("{\"title\": \"new-name\"}"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
@@ -131,7 +131,7 @@ public class MedicineControllerIT {
         try {
             DatabaseOperation.REFRESH.execute(this.dataSourceConnection, readDataset());
 
-            this.mockMvc.perform(MockMvcRequestBuilders.delete(uri +"/{id}", medicineId))
+            this.mockMvc.perform(MockMvcRequestBuilders.delete(URI +"/{id}", medicineId))
                     .andExpect(MockMvcResultMatchers.status().isNoContent());
         } finally {
             this.dataSourceConnection.close();
