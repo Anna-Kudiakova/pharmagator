@@ -52,8 +52,8 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
     public Stream<MedicineDto> loadData() {
         return Stream.iterate(1, page -> page + 1)
                 .map(this::fetchProductIds)
-                .takeWhile(response -> response.map(RozetkaProductIdsResponseData::getShowNext).get() != 0)
-                .map(Optional::get)
+                .flatMap(Optional::stream)
+                .takeWhile(response -> response.getShowNext() != 0)
                 .map(RozetkaProductIdsResponseData::getIds)
                 .flatMap(this::fetchProducts);
     }
@@ -69,7 +69,8 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
                 .bodyToMono(new ParameterizedTypeReference<RozetkaProductIdsResponse>() {
                 })
                 .block();
-        return Optional.ofNullable(productIds.getData());
+        return Optional.ofNullable(productIds)
+                .map(RozetkaProductIdsResponse::getData);
     }
 
     private Stream<MedicineDto> fetchProducts(List<Long> productIdsList) {
