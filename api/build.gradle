@@ -36,6 +36,7 @@ dependencies {
     implementation 'org.flywaydb:flyway-core:7.15.0'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'org.modelmapper:modelmapper:2.4.4'
+    implementation 'com.univocity:univocity-parsers:2.9.1'
     implementation 'org.apache.poi:poi:5.1.0'
     implementation 'org.apache.poi:poi-ooxml:5.1.0'
 
@@ -46,6 +47,7 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.h2database:h2:1.4.200'
     testImplementation 'org.dbunit:dbunit:2.7.2'
 }
 
