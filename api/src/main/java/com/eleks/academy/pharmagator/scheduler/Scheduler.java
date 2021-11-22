@@ -8,9 +8,11 @@ import com.eleks.academy.pharmagator.entities.Price;
 import com.eleks.academy.pharmagator.repositories.MedicineRepository;
 import com.eleks.academy.pharmagator.repositories.PharmacyRepository;
 import com.eleks.academy.pharmagator.repositories.PriceRepository;
+import com.eleks.academy.pharmagator.services.MaterializedViewRefresher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -35,6 +37,8 @@ public class Scheduler {
 
     private final ModelMapper modelMapper;
 
+    private final MaterializedViewRefresher materializedViewRefresher;
+
     @Scheduled(fixedDelay = 100, timeUnit = TimeUnit.MINUTES)
     public void schedule() {
         log.info("Scheduler started at {}", Instant.now());
@@ -42,6 +46,8 @@ public class Scheduler {
                 .flatMap(DataProvider::loadData)
                 .forEach(this::storeToDatabase);
         log.info("Scheduler finished at {}", Instant.now());
+        materializedViewRefresher.refresh();
+
     }
 
     private void storeToDatabase(MedicineDto dto) {
