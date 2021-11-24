@@ -48,9 +48,13 @@ public class PharmacyRozetkaDataProvider implements DataProvider {
     @Value("${pharmagator.data-providers.apteka-rozetka.pharmacy-name}")
     private String pharmacyName;
 
+    @Value("${pharmagator.data-providers.apteka-rozetka.page-limit}")
+    private Long pageLimit;
+
     @Override
     public Stream<MedicineDto> loadData() {
         return Stream.iterate(1, page -> page + 1)
+                .limit(pageLimit)
                 .map(this::fetchProductIds)
                 .flatMap(Optional::stream)
                 .takeWhile(response -> response.getShowNext() != 0)

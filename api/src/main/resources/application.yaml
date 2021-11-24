@@ -32,3 +32,4 @@ pharmagator:
       category-id: !!str 4628621
       medicament-category-id: !!str 4628712
       pharmacy-name: apteka-rozetka
+      page-limit: 5
