@@ -24,6 +24,10 @@
 <!--            <li class="nav-item" th:class="${activePage == 'medicine'} ? 'nav-item active' : 'nav-item'">-->
                 <a class="nav-link" th:href="@{/ui/medicine}">Medicine</a>
             </li>
+                        <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('showForm')} ? 'nav-link active' : 'nav-link'">
+                <!--            <li class="nav-item" th:class="${activePage == 'showForm'} ? 'nav-item active' : 'nav-item'">-->
+                <a class="nav-link" th:href="@{/input/showForm}">Add Medicine</a>
+            </li>
         </ul>
     </div>
 </nav>

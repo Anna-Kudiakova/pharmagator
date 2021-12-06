@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Pharmagator</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body class="d-flex flex-column h-100">
+
+<div th:replace="~{fragments/header :: header}"> </div>
+
+
+<main role="main" class="flex-shrink-0">
+    <div class="container mt-5">
+        <div class="jumbotron">
+            <h1 class="display-7">Medicine was successfully stored to the database</h1>
+        </div>
+        <a class="nav-link" th:href="@{/input/showForm}">Add another medicine </a>
+    </div>
+</main>
+</body>
+</html>

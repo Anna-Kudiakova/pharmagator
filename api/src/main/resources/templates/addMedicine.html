@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Pharmagator</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+
+</head>
+<body class="d-flex flex-column h-100">
+
+<div th:replace="~{fragments/header :: header}"> </div>
+
+<main role="main" class="flex-shrink-0">
+    <div class="container mt-5">
+
+        <div class="jumbotron">
+            <h1 class="display-8">Here you can add medicine manually</h1>
+        </div>
+        <form action="#" th:action="@{/input/addMedicine}" th:object="${medicineDto}" method="post" >
+            <p>Title <input type="text" th:field="*{title}" required placeholder="Enter medicine title"
+                            pattern ="^[1-9a-zA-ZА-Яа-яЁёЇїІіЄєҐґ'-]+"
+                            oninvalid="setCustomValidity('Enter title here, it shouldn't contain any special characters')"
+                            oninput="this.setCustomValidity('')"/></p>
+            <p>Price <input type="text"  th:field="*{price}" required placeholder="Enter medicine price"
+                            pattern="(([1-9]\d*)(\.\d+)?)|(0\.\d+)"
+                            oninvalid="this.setCustomValidity('Enter price here, it should be numeric value, bigger than 0')"
+                            oninput="this.setCustomValidity('')"/></p>
+            <p>External Id <input type="text" th:field="*{externalId}" required placeholder="Enter external id"
+                                  pattern="[\d]+"
+                                  oninvalid="this.setCustomValidity('Enter external id here, it should be positive integer')"
+                                  oninput="this.setCustomValidity('')"/></p>
+            <p>Pharmacy name <input type="text"  th:field="*{pharmacyName}" required placeholder="Enter pharmacy name"
+                                    pattern ="^[1-9a-zA-ZА-Яа-яЁёЇїІіЄєҐґ'-]+"
+                                    oninvalid="this.setCustomValidity('Enter pharmacy name here, it shouldn't contain any special characters')"
+                                    oninput="this.setCustomValidity('')"/></p>
+            <p><input type="submit" value="Add medicine" /> <input type="reset" value="Reset" /></p>
+        </form>
+
+    </div>
+</main>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+        crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
