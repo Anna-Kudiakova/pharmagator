@@ -30,7 +30,7 @@ class ExternalInputControllerTest {
     private ImportService importService;
 
     @Test
-    void showForm_isOk() throws Exception {
+    void getInputPage_isOk() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get(BASE_URI))
                 .andExpect(status().isOk())
@@ -40,7 +40,7 @@ class ExternalInputControllerTest {
     }
 
     @Test
-    void addMedicine_isOk() throws Exception {
+    void getInputResult_isOk() throws Exception {
 
         MedicineDto medicineDto = MedicineDto.builder()
                 .title("Aspirin")

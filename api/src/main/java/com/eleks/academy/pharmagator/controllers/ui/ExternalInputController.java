@@ -24,13 +24,13 @@ public class ExternalInputController {
     private final ImportService importService;
 
     @GetMapping
-    public String showForm(Model model) {
+    public String getInputPage(Model model) {
         model.addAttribute("medicineDto", new MedicineDto());
         return "addMedicine";
     }
 
     @PostMapping
-    public String addMedicine(@Valid @ModelAttribute("medicineDto") MedicineDto medicineDto, Model model) {
+    public String getInputResult(@Valid @ModelAttribute("medicineDto") MedicineDto medicineDto, Model model) {
         importService.storeToDatabase(medicineDto);
         model.addAttribute("medicineDto", medicineDto);
         return "result";
