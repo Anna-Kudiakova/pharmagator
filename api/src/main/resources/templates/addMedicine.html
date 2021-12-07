@@ -27,8 +27,8 @@
                             oninvalid="this.setCustomValidity('Enter price here, it should be numeric value, bigger than 0')"
                             oninput="this.setCustomValidity('')"/></p>
             <p>External Id <input type="text" th:field="*{externalId}" required placeholder="Enter external id"
-                                  pattern="[\d]+"
-                                  oninvalid="this.setCustomValidity('Enter external id here, it should be positive integer')"
+                                  pattern="[1-9a-zA-Z@._%+-]+"
+                                  oninvalid="this.setCustomValidity('Enter external id here, it should only contain alphanumeric characters and the following special characters: @, ., _, %, +, -.')"
                                   oninput="this.setCustomValidity('')"/></p>
             <p>Pharmacy name <input type="text"  th:field="*{pharmacyName}" required placeholder="Enter pharmacy name"
                                     pattern ="^[1-9a-zA-ZА-Яа-яЁёЇїІіЄєҐґ'-]+"
