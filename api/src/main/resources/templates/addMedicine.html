@@ -18,7 +18,7 @@
         <div class="jumbotron">
             <h1 class="display-8">Here you can add medicine manually</h1>
         </div>
-        <form action="#" th:action="@{/input/addMedicine}" th:object="${medicineDto}" method="post" >
+        <form action="#" th:action="@{/ui/input}" th:object="${medicineDto}" method="post" >
             <p>Title <input type="text" th:field="*{title}" required placeholder="Enter medicine title"
                             pattern ="^[1-9a-zA-ZА-Яа-яЁёЇїІіЄєҐґ'-]+"
                             oninvalid="setCustomValidity('Enter title here, it shouldn't contain any special characters')"

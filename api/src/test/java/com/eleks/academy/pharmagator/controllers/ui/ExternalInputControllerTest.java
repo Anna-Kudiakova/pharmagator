@@ -24,24 +24,15 @@ class ExternalInputControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private final String BASE_URI = "/input";
+    private final String BASE_URI = "/ui/input";
 
     @MockBean
     private ImportService importService;
 
     @Test
-    void getHomePage_isOk() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URI))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"))
-                .andDo(print());
-    }
-
-    @Test
     void showForm_isOk() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URI+"/showForm"))
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URI))
                 .andExpect(status().isOk())
                 .andExpect(view().name("addMedicine"))
                 .andExpect(model().attribute("medicineDto", new MedicineDto()))
@@ -60,7 +51,7 @@ class ExternalInputControllerTest {
 
         doNothing().when(importService).storeToDatabase(medicineDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post(BASE_URI+"/addMedicine")
+        mockMvc.perform(MockMvcRequestBuilders.post(BASE_URI)
                         .flashAttr("medicineDto", medicineDto))
                 .andExpect(status().isOk())
                 .andExpect(view().name("result"))

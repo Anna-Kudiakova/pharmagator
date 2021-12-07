@@ -18,24 +18,18 @@ import javax.validation.Valid;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/input")
+@RequestMapping("/ui/input")
 public class ExternalInputController {
 
     private final ImportService importService;
 
-    @GetMapping({"", "/", "/index", "/index.html", "/home", "/homepage"})
-    public String getHomePage() {
-        return "index";
-    }
-
-
-    @GetMapping("/showForm")
+    @GetMapping
     public String showForm(Model model) {
         model.addAttribute("medicineDto", new MedicineDto());
         return "addMedicine";
     }
 
-    @PostMapping("/addMedicine")
+    @PostMapping
     public String addMedicine(@Valid @ModelAttribute("medicineDto") MedicineDto medicineDto, Model model) {
         importService.storeToDatabase(medicineDto);
         model.addAttribute("medicineDto", medicineDto);
