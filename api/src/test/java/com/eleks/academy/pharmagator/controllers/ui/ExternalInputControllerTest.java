@@ -16,7 +16,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @ActiveProfiles("test")
 @WebMvcTest(ExternalInputController.class)
 class ExternalInputControllerTest {
@@ -31,7 +30,6 @@ class ExternalInputControllerTest {
 
     @Test
     void getInputPage_isOk() throws Exception {
-
         mockMvc.perform(MockMvcRequestBuilders.get(BASE_URI))
                 .andExpect(status().isOk())
                 .andExpect(view().name("addMedicine"))
@@ -41,7 +39,6 @@ class ExternalInputControllerTest {
 
     @Test
     void getInputResult_isOk() throws Exception {
-
         MedicineDto medicineDto = MedicineDto.builder()
                 .title("Aspirin")
                 .price(new BigDecimal(46.6))

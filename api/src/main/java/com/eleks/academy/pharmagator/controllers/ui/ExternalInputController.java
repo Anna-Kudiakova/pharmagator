@@ -1,6 +1,5 @@
 package com.eleks.academy.pharmagator.controllers.ui;
 
-
 import com.eleks.academy.pharmagator.dataproviders.dto.MedicineDto;
 import com.eleks.academy.pharmagator.services.ImportService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-
 
 @Controller
 @Slf4j
