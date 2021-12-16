@@ -19,7 +19,7 @@
         </div>
         <form action="#" th:action="@{/ui/input}" th:object="${medicineDto}" method="post" >
             <p>Title <input type="text" th:field="*{title}" required placeholder="Enter medicine title"
-                            pattern ="^[1-9a-zA-ZА-Яа-яЁёЇїІіЄєҐґ'-]+"
+                            pattern ="^[1-9a-zA-ZА-Яа-яЁёЇїІіЄєҐґ'- ]+"
                             oninvalid="setCustomValidity('Enter title here, it shouldn\'t contain any special characters')"
                             oninput="this.setCustomValidity('')"/></p>
             <p>Price <input type="text"  th:field="*{price}" required placeholder="Enter medicine price"
